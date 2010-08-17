@@ -15,3 +15,27 @@
 #     password: changeme
 #     name:     Kris Wallsmith
 #     email:    kris.wallsmith@symfony-project.com
+
+User:
+  analogue:
+    email:      analogue@glop.org
+    firstname:  Laurent
+    lastname:   Raufaste
+    created_at: 2010-08-15 15:33:22
+  hiscorer:
+    email:      leet@leet.com
+    firstname:  I Am
+    lastname:   L33t
+    created_at: 2010-08-16 16:33:16
+
+Hiscore:
+  besttime:
+    User:       hiscorer
+    time:       666
+    boardwidth: 100
+    created_at: 2010-08-16 17:23:16
+  best2ndtime:
+    User:       hiscorer
+    time:       1234
+    boardwidth: 50
+    created_at: 2010-08-16 18:15:18
