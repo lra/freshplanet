@@ -4,11 +4,14 @@ Time spent for now:
 
  * Symfony installation: 1 hour
  * Initial game design: 1 hour
+ * Yaml schema design: 2 hours
 
 Suppositions:
 
+ * There can be 1 million users and 1 billion hiscores for a start
  * A user can only play one game at a time
  * A minesweeper game board is squared
+ * Maximum game time to resolve a board is 1 day
 
 Rules:
 
@@ -28,7 +31,8 @@ Data structures:
  	 * Email (VARCHAR(255) NOT NULL)
 	 * Firstname (VARCHAR(255) NOT NULL)
 	 * Lastname (VARCHAR(255) NOT NULL)
-	 * Registration_date (DATETIME NOT NULL)
+	 * created_at (DATETIME NOT NULL)
+	 * updated_at (DATETIME NOT NULL)
 	 * Current game (BLOB)
 	 	 * BLOB board consisting of squares of 3 bits each
 		 	 * 1st bit: SQUARE_MINED (1) or SQUARE_EMPTY (0)
@@ -41,7 +45,8 @@ Data structures:
 	 * Last action time (DATETIME)
 
  * Hiscores
+ 	 * id (PK)
  	 * user_id (FK Users.id)
-	 * Datetime (When the hiscore occured)
 	 * Time (Time spent in seconds to win the game)
 	 * Boardwidth (width of the board played and won)
+	 * created_at (when the hiscore occured) (DATETIME NOT NULL)

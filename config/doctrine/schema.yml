@@ -1,0 +1,82 @@
+# schema.yml
+
+# User class
+
+User:
+  columns:
+    id:
+      type: integer(6)
+      unsigned: true
+      primary: true
+      autoincrement: true
+    email:
+      type: string(255)
+      notblank: true
+      unique: true
+      email: true
+    firstname:
+      type: string(255)
+      notblank: true
+      unique: true
+    lastname:
+      type: string(255)
+      notblank: true
+      unique: true
+    game_board:
+      type: blob
+    game_time:
+      type: integer
+    last_action_at:
+      type: timestamp
+  actAs:
+    Timestampable:
+      created:
+        name: created_at
+      updated:
+        name: updated_at
+  indexes:
+    emailindex:
+      fields: [email]
+      type: unique
+    createdindex:
+      fields: [created_at]
+
+# Hiscore class
+
+Hiscore:
+  columns:
+    id:
+      type: integer(9)
+      unsigned: true
+      primary: true
+      autoincrement: true
+    user_id:
+      type: integer(6)
+      unsigned: true
+    time:
+      type: integer(5)
+      notnull: true
+    boardwidth:
+      type: integer
+      notnull: true
+  relations:
+    User:
+      local: user_id
+      foreign: id
+      owningSide: true
+      type: one
+      onDelete: cascade
+      onUpdate: cascade
+  actAs:
+    Timestampable:
+      created:
+        name: created_at
+      updated:
+        disabled: true
+  indexes:
+    userindex:
+      fields: [user_id]
+    boardwidthindex:
+      fields: [boardwidth]
+    createdindex:
+      fields: [created_at]
