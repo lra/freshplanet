@@ -35,9 +35,6 @@ User:
       updated:
         name: updated_at
   indexes:
-    emailindex:
-      fields: [email]
-      type: unique
     createdindex:
       fields: [created_at]
 
