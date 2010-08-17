@@ -76,7 +76,7 @@ Hiscore:
   indexes:
     userindex:
       fields: [user_id]
-    boardwidthindex:
-      fields: [boardwidth]
+    boardwidthtimeindex:
+      fields: [boardwidth,time]
     createdindex:
       fields: [created_at]
