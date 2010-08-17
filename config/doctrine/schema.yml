@@ -17,11 +17,9 @@ User:
     firstname:
       type: string(255)
       notblank: true
-      unique: true
     lastname:
       type: string(255)
       notblank: true
-      unique: true
     game_board:
       type: blob
     game_time:
