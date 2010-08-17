@@ -1,4 +1,47 @@
 This is a minesweeper game I'm coding using Symfony and PHP.
 
 Time spent for now:
+
  * Symfony installation: 1 hour
+ * Initial game design: 1 hour
+
+Suppositions:
+
+ * A user can only play one game at a time
+ * A minesweeper game board is squared
+
+Rules:
+
+ * A player loose when he clicks a mined square
+ * A player wins when he uncover the last empty square
+
+Constants:
+
+ * Minimum width of a board: 10
+ * Maximum width of a board: 100
+ * Percentage of mines: 10
+
+Data structures:
+
+ * Users
+ 	 * id (PK)
+ 	 * Email (VARCHAR(255) NOT NULL)
+	 * Firstname (VARCHAR(255) NOT NULL)
+	 * Lastname (VARCHAR(255) NOT NULL)
+	 * Registration_date (DATETIME NOT NULL)
+	 * Current game (BLOB)
+	 	 * BLOB board consisting of squares of 3 bits each
+		 	 * 1st bit: SQUARE_MINED (1) or SQUARE_EMPTY (0)
+			 * 2nd and 3rd bit
+			 	 * USER_NONE (00)
+				 * USER_FLAGGED (01)
+				 * USER_QUESTION (10)
+				 * USER_REVEALED (11)
+	 * Current game time in seconds (INT)
+	 * Last action time (DATETIME)
+
+ * Hiscores
+ 	 * user_id (FK Users.id)
+	 * Datetime (When the hiscore occured)
+	 * Time (Time spent in seconds to win the game)
+	 * Boardwidth (width of the board played and won)
