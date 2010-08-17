@@ -1,3 +1,21 @@
+hiscore:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Hiscore
+    module:               hiscore
+    prefix_path:          /hiscore
+    column:               id
+    with_wildcard_routes: true
+
+user:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                User
+    module:               user
+    prefix_path:          /user
+    column:               id
+    with_wildcard_routes: true
+
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 
