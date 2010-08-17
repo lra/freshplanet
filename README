@@ -52,8 +52,13 @@ Data structures:
 	 * created_at (when the hiscore occured) (DATETIME NOT NULL)
 
 Indexes:
+
  * On User.Email: needed to look for a specific user at login
  * On User.created_at: needed to list the latest users
  * On Hiscores.user_id: used for the join between Users and Hiscores
  * On Hiscores.boardwidth and Hiscores.time: used to get the hiscores with the same board size from best to worst
  * On Hiscores.created_at: used to get the latest hiscores
+
+Choices:
+
+ * As a user can only play 1 game at a time, I choose to not make a separate table for the user's game board in order to save the JOIN cost between the User table and the supposed game table
