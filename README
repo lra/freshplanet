@@ -63,3 +63,12 @@ Indexes:
 Choices:
 
  * As a user can only play 1 game at a time, I choose to not make a separate table for the user's game board in order to save the JOIN cost between the User table and the supposed game table
+
+Application/modules/actions:
+
+ * frontend
+   * login
+   * hiscore
+   * game
+ * json
+   * game
