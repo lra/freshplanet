@@ -17,6 +17,41 @@ class userActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    $this->forward('default', 'module');
+		if ($this->getUser()->isAuthenticated())
+		{
+			$this->redirect('user/loginSuccessful');
+		}
+
+		$this->getUser()->setFlash('notice', 'Glop !');
+
+		$this->loginForm = new LoginForm();
+		$this->registerForm = new RegisterForm();
   }
+
+ /**
+  * Executes login action
+  *
+  * @param sfRequest $request A request object
+  */
+  public function executeLogin(sfWebRequest $request)
+  {
+	}
+
+ /**
+  * Executes register action
+  *
+  * @param sfRequest $request A request object
+  */
+  public function executeRegister(sfWebRequest $request)
+  {
+	}
+
+ /**
+  * Executes index action
+  *
+  * @param sfRequest $request A request object
+  */
+  public function executeLoginSuccessful(sfWebRequest $request)
+  {
+	}
 }

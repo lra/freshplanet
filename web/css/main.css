@@ -1,0 +1,40 @@
+body {
+		margin: 100px auto;
+		width: 800px;
+		text-align: left;
+}
+
+h1, h2, h3, h4, h5, h6 {
+		text-align: center;
+}
+
+h1 {
+		margin: 50px;
+}
+
+.flash_notice, .flash_error {
+		text-align: center;
+}
+
+.flash_notice {
+		border: dashed green 1px;
+		color: green;
+}
+
+.flash_error {
+		border: dashed red 1px;
+		color: red;
+}
+
+form table {
+		width: 100px;
+		margin: auto;
+		background-color: #eee;
+		border: 1px solid #000;
+}
+
+.bottom {
+		margin-top: 100px;
+		text-align: center;
+		font-size: smaller;
+}
