@@ -67,9 +67,9 @@ Choices:
 Application/modules/actions:
 
  * frontend
-   * login
-   * hiscore
+   * user
    * game
+   * hiscore
 	 * json
  * backend
    * admin

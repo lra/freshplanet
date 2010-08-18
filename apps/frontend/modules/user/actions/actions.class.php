@@ -1,14 +1,14 @@
 <?php
 
 /**
- * login actions.
+ * user actions.
  *
  * @package    minesweeper
- * @subpackage login
+ * @subpackage user
  * @author     Laurent Raufaste
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
-class loginActions extends sfActions
+class userActions extends sfActions
 {
  /**
   * Executes index action
