@@ -70,5 +70,6 @@ Application/modules/actions:
    * login
    * hiscore
    * game
- * json
-   * game
+	 * json
+ * backend
+   * admin
