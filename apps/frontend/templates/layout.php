@@ -11,7 +11,10 @@
 
 <body>
 
-<h1>Minesweeper for <a href="http://freshplanet.com/">FreshPlanet</a></h1>
+<h1>
+	 <?php echo link_to('Minesweeper', 'user/index') ?>
+	 for
+	 <a href="http://freshplanet.com/">FreshPlanet</a></h1>
 
 <?php if ($sf_user->hasFlash('notice')): ?>
 	 <div class="flash_notice"><?php echo $sf_user->getFlash('notice') ?></div>
@@ -19,6 +22,15 @@
  
 <?php if ($sf_user->hasFlash('error')): ?>
 	 <div class="flash_error"><?php echo $sf_user->getFlash('error') ?></div>
+<?php endif ?>
+
+<?php if ($sf_user->isAuthenticated()): ?>
+<p class="menu">
+	 Logged in as <?php echo link_to($sf_user->getAttribute('email'), 'user/index') ?> |
+	 <?php //echo link_to('Game board', 'game') ?> |
+	 <?php //echo link_to('Hiscores', 'hiscore') ?> |
+	 <?php echo link_to('Logout', 'user/logout') ?>
+</div>
 <?php endif ?>
 
 <?php echo $sf_content ?>

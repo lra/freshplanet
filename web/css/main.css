@@ -26,6 +26,10 @@ h1 {
 		color: red;
 }
 
+.menu {
+		text-align: center;
+}
+
 form table {
 		width: 100px;
 		margin: auto;
