@@ -17,21 +17,26 @@
 	 <a href="http://freshplanet.com/">FreshPlanet</a></h1>
 
 <?php if ($sf_user->hasFlash('notice')): ?>
-	 <div class="flash_notice"><?php echo $sf_user->getFlash('notice') ?></div>
+	<div class="flash_notice"><?php echo $sf_user->getFlash('notice') ?></div>
 <?php endif ?>
  
 <?php if ($sf_user->hasFlash('error')): ?>
-	 <div class="flash_error"><?php echo $sf_user->getFlash('error') ?></div>
+	<div class="flash_error"><?php echo $sf_user->getFlash('error') ?></div>
 <?php endif ?>
 
+<div class="menu">
 <?php if ($sf_user->isAuthenticated()): ?>
-<p class="menu">
-	 Logged in as <?php echo link_to($sf_user->getAttribute('name'), 'user/index') ?> |
-	 <?php //echo link_to('Game board', 'game') ?> |
-	 <?php //echo link_to('Hiscores', 'hiscore') ?> |
-	 <?php echo link_to('Logout', 'user/logout') ?>
-</div>
+	Logged in as <?php echo link_to($sf_user->getAttribute('name'), 'user/index') ?> |
+	<?php //echo link_to('Game board', 'game') ?> |
+	<?php //echo link_to('Hiscores', 'hiscore') ?> |
+	<?php echo link_to('Logout', 'user/logout') ?>
+<?php else: ?>
+	<?php echo link_to('Login or Register', 'user/index') ?> |
+	<em>Game board</em> |
+	<em>Hiscore</em> |
+	<em>Logout</em>
 <?php endif ?>
+</div>
 
 <?php echo $sf_content ?>
 

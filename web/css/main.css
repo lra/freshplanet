@@ -54,9 +54,14 @@ h1 {
 
 .menu {
 		text-align: center;
+		margin: 25px;
 		padding: 5px;
 		border: 1px #8F8F8F solid;
 		background-color: #ECECEC;
+}
+
+.menu em {
+	color: #8F8F8F;
 }
 
 form table {
