@@ -48,6 +48,12 @@ class userActions extends sfActions
 			$this->redirect('user/index');
 		}
 
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+		{
+			$user->setFlash('error', 'Invalid Email entered');
+			$this->redirect('user/index');
+		}
+		
 		// Try to find the user
 		$dbUser = Doctrine_Core::getTable('User')->findOneByEmail($email);
 
@@ -68,13 +74,56 @@ class userActions extends sfActions
 		}
 	}
 
- /**
-  * Executes register action
-  *
-  * @param sfRequest $request A request object
-  */
-  public function executeRegister(sfWebRequest $request)
-  {
+	/**
+	* Executes register action
+	*
+	* @param sfRequest $request A request object
+	*/
+	public function executeRegister(sfWebRequest $request)
+	{
+		// This action should only be accessed by a register form
+		$this->forward404Unless($request->isMethod('post'));
+		
+		$email = $request->getParameter('email');
+		$firstname = $request->getParameter('firstname');
+		$lastname = $request->getParameter('lastname');
+		
+		$user = $this->getUser();
+		
+		// Missing some data ?
+		if (!($email && $firstname && $lastname))
+		{
+			$user->setFlash('error', 'Every field is mandatory');
+			$this->redirect('user/index');
+		}
+		
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+		{
+			$user->setFlash('error', 'Invalid Email entered');
+			$this->redirect('user/index');
+		}
+		
+		$dbUser = new User();
+		$dbUser->setEmail($email);
+		$dbUser->setFirstname($firstname);
+		$dbUser->setLastname($lastname);
+		$dbUser->save();
+
+		// The user logged in, authenticate him
+		if (!$dbUser->isNew())
+		{
+			$user->setAttribute('id', $dbUser->getId());
+			$user->setAttribute('name', $dbUser->getName());
+			$user->setFlash('notice', 'Welcome '.$dbUser->getFirstname());
+			$user->setAuthenticated(true);
+			// Shows the user that he logged in
+			$this->redirect('user/loginSuccessful');
+		}
+		else
+		{
+			$user->setFlash('error', 'Unable to find a user with the email '.$email);
+			$this->redirect('user/index');
+		}
 	}
 
  /**
