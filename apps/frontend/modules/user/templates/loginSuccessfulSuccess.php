@@ -1,3 +1,3 @@
-<p>Yay !</p>
+<p>Welcome <?php echo $dbUser->getFirstname(); ?>, you've successfully logged in the game =)</p>
 
-<p>Name: <?php echo $dbUser->getName(); ?></p>
+<p>You can now start playing a game or continue to play your last gameboard.</p>

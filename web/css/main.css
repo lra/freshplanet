@@ -1,7 +1,29 @@
+/**
+ * Colors
+ *
+ * Dark pink: #9E1E4C
+ * Pink: #FF1168
+ * Dark: #25020F
+ * Grey: #8F8F8F
+ * White: #ECECEC
+ */
+
 body {
 		margin: 100px auto;
 		width: 800px;
 		text-align: left;
+		font-family: Arial, sans-serif;
+		color: #25020F;
+		background-color: #FFFFFF;
+}
+
+a {
+	color: #9E1E4C;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #FF1168;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -14,6 +36,10 @@ h1 {
 
 .flash_notice, .flash_error {
 		text-align: center;
+		padding: 5px;
+		margin: auto;
+		background-color: #ECECEC;
+		width: 300px;
 }
 
 .flash_notice {
@@ -28,6 +54,9 @@ h1 {
 
 .menu {
 		text-align: center;
+		padding: 5px;
+		border: 1px #8F8F8F solid;
+		background-color: #ECECEC;
 }
 
 form table {

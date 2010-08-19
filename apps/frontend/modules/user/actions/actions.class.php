@@ -55,7 +55,8 @@ class userActions extends sfActions
 		if ($dbUser)
 		{
 			$user->setAttribute('id', $dbUser->getId());
-			$user->setFlash('notice', 'Welcome '.$email);
+			$user->setAttribute('name', $dbUser->getName());
+			$user->setFlash('notice', 'Welcome '.$dbUser->getFirstname());
 			$user->setAuthenticated(true);
 			// Shows the user that he logged in
 			$this->redirect('user/loginSuccessful');
@@ -94,6 +95,8 @@ class userActions extends sfActions
   */
   public function executeLogout(sfWebRequest $request)
   {
+		$this->getUser()->getAttributeHolder()->remove('id');
+		$this->getUser()->getAttributeHolder()->remove('name');
 		$this->getUser()->setAuthenticated(false);
 
 		$this->getUser()->setFlash('notice', 'You have successfully logged out');
