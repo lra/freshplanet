@@ -17,13 +17,13 @@ class userActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
+		// If the user is already authenticated, no need to display the login forms
 		if ($this->getUser()->isAuthenticated())
 		{
 			$this->redirect('user/loginSuccessful');
 		}
 
-		$this->getUser()->setFlash('notice', 'Glop !');
-
+		// The login forms
 		$this->loginForm = new LoginForm();
 		$this->registerForm = new RegisterForm();
   }
@@ -35,6 +35,36 @@ class userActions extends sfActions
   */
   public function executeLogin(sfWebRequest $request)
   {
+		// This action should only be accessed by a login form
+		$this->forward404Unless($request->isMethod('post'));
+
+		$email = $request->getParameter('email');
+		$user = $this->getUser();
+
+		// No email ?
+		if (!$email)
+		{
+			$user->setFlash('error', 'An email is required');
+			$this->redirect('user/index');
+		}
+
+		// Try to find the user
+		$dbUser = Doctrine_Core::getTable('User')->findOneByEmail($email);
+
+		// The user logged in, authenticate him
+		if ($dbUser)
+		{
+			$user->setAttribute('id', $dbUser->getId());
+			$user->setFlash('notice', 'Welcome '.$email);
+			$user->setAuthenticated(true);
+			// Shows the user that he logged in
+			$this->redirect('user/loginSuccessful');
+		}
+		else
+		{
+			$user->setFlash('error', 'Unable to find a user with the email '.$email);
+			$this->redirect('user/index');
+		}
 	}
 
  /**
@@ -47,11 +77,28 @@ class userActions extends sfActions
 	}
 
  /**
-  * Executes index action
+  * Executes loginSuccessful action
   *
   * @param sfRequest $request A request object
   */
   public function executeLoginSuccessful(sfWebRequest $request)
   {
+		$user = $this->getUser();
+		$this->dbUser = Doctrine_Core::getTable('User')->find($user->getAttribute('id'));
+	}
+
+ /**
+  * Executes logout action
+  *
+  * @param sfRequest $request A request object
+  */
+  public function executeLogout(sfWebRequest $request)
+  {
+		$this->getUser()->setAuthenticated(false);
+
+		$this->getUser()->setFlash('notice', 'You have successfully logged out');
+
+		// Shows the user that he logged in
+		$this->redirect('user/index');
 	}
 }
