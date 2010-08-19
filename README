@@ -71,6 +71,6 @@ Application/modules/actions:
    * user
    * game
    * hiscore
-	 * json
+ * json
  * backend
    * admin
