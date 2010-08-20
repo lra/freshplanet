@@ -16,14 +16,6 @@
 	 for
 	 <a href="http://freshplanet.com/">FreshPlanet</a></h1>
 
-<?php if ($sf_user->hasFlash('notice')): ?>
-	<div class="flash_notice"><?php echo $sf_user->getFlash('notice') ?></div>
-<?php endif ?>
- 
-<?php if ($sf_user->hasFlash('error')): ?>
-	<div class="flash_error"><?php echo $sf_user->getFlash('error') ?></div>
-<?php endif ?>
-
 <div class="menu">
 <?php if ($sf_user->isAuthenticated()): ?>
 	Logged in as <?php echo link_to($sf_user->getAttribute('name'), 'user/index') ?> |
@@ -37,6 +29,14 @@
 	<em>Logout</em>
 <?php endif ?>
 </div>
+
+<?php if ($sf_user->hasFlash('notice')): ?>
+	<div class="flash_notice"><?php echo $sf_user->getFlash('notice') ?></div>
+<?php endif ?>
+ 
+<?php if ($sf_user->hasFlash('error')): ?>
+	<div class="flash_error"><?php echo $sf_user->getFlash('error') ?></div>
+<?php endif ?>
 
 <div class="content">
 <?php echo $sf_content ?>
