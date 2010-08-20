@@ -111,6 +111,10 @@ table.hiscores th, table.hiscores td {
 		border: 1px #8F8F8F dashed;
 }
 
+table.board {
+		border: 1px solid #8F8F8F;
+}
+
 .bottom {
 		margin-top: 100px;
 		text-align: center;
