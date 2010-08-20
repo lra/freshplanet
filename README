@@ -72,6 +72,46 @@ Application/modules/actions:
    * user
    * game
    * hiscore
- * json
+   * json
  * backend
    * admin
+
+Data exchanged with JSON:
+
+The frontend/game module of the application will make requests to the frontend/json application using HTTP requests.
+The frontend/json module will update the game data and send back the data to the frontend/game module with JSON.
+
+The possible actions will be the requests:
+ * getFullGameboard?user_id=123 - Get every square state composing the gameboard
+ * clickSquare?user_id=123&square_offset=456 - discover a square and get every square state that was changed by this action
+
+An example of full game board sent back with JSON:
+{
+				"result": 0, // Result code depending on the effect of the last action: Boom, Won, Discovered, ...
+				"board": [
+								 {"offset": 0, "state": 1},
+								 {"offset": 1, "state": 1},
+								 {"offset": 2, "state": 1},
+								 {"offset": 3, "state": 3},
+								 {"offset": 4, "state": 4},
+								 {"offset": 5, "state": 1},
+								 					[...]
+								 {"offset": 97, "state": 1},
+								 {"offset": 98, "state": 0},
+								 {"offset": 99, "state": 1}
+				]
+}
+
+
+An exemple of some squares updated sent back using JSON:
+{
+				"result": 3, // Result code depending on the effect of the last action: Boom, Won, Discovered, ...
+				"board": [
+								 {"offset": 53, "state": 1},
+								 {"offset": 62, "state": 1},
+								 {"offset": 63, "state": 1},
+								 {"offset": 64, "state": 1},
+								 {"offset": 73, "state": 1},
+								 {"offset": 83, "state": 1}
+				]
+}
