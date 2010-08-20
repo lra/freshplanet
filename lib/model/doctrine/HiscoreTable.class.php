@@ -8,4 +8,14 @@ class HiscoreTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('Hiscore');
     }
+
+		public function getAllOrderedByBoardwidthAndTime()
+		{
+			$q = $this->createQuery('h')
+				->leftJoin('h.User u')
+				->orderBy('h.boardwidth DESC')
+				->orderBy('h.time ASC');
+
+			return $q->execute();
+		}
 }

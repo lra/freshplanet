@@ -28,7 +28,7 @@
 <?php if ($sf_user->isAuthenticated()): ?>
 	Logged in as <?php echo link_to($sf_user->getAttribute('name'), 'user/index') ?> |
 	<?php //echo link_to('Game board', 'game') ?> |
-	<?php //echo link_to('Hiscores', 'hiscore') ?> |
+	<?php echo link_to('Hiscores', 'hiscore/index') ?> |
 	<?php echo link_to('Logout', 'user/logout') ?>
 <?php else: ?>
 	<?php echo link_to('Login or Register', 'user/index') ?> |
@@ -38,7 +38,9 @@
 <?php endif ?>
 </div>
 
+<div class="content">
 <?php echo $sf_content ?>
+</div>
 
 <p class="bottom">
 	 A first <a href="http://www.symfony-project.org/">Symfony</a> try

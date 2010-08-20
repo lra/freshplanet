@@ -64,11 +64,43 @@ h1 {
 	color: #8F8F8F;
 }
 
+table {
+		margin: auto;
+}
+
 form table {
 		width: 100px;
-		margin: auto;
 		background-color: #eee;
 		border: 1px solid #000;
+}
+
+table.hiscores {
+		border: 1px #8F8F8F solid;
+}
+
+table.hiscores th {
+		text-align: center;
+}
+
+table.hiscores th, table.hiscores td {
+		padding: 1px;
+		background-color: #ECECEC;
+}
+
+.right {
+		text-align: right;
+}
+
+.center {
+		text-align: center;
+}
+
+.bold {
+		font-weight: bold;
+}
+
+.layout {
+		text-align: center;
 }
 
 .message {
