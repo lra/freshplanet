@@ -54,7 +54,7 @@ h1 {
 
 .menu {
 		text-align: center;
-		margin: 25px;
+		margin: 25px 0;
 		padding: 5px;
 		border: 1px #8F8F8F solid;
 		background-color: #ECECEC;
@@ -69,6 +69,14 @@ form table {
 		margin: auto;
 		background-color: #eee;
 		border: 1px solid #000;
+}
+
+.message {
+		width: 400px;
+		margin: 10px auto;
+		padding: 10px;
+		background-color: #ECECEC;
+		border: 1px #8F8F8F dashed;
 }
 
 .bottom {
