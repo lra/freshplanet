@@ -27,7 +27,7 @@
 <div class="menu">
 <?php if ($sf_user->isAuthenticated()): ?>
 	Logged in as <?php echo link_to($sf_user->getAttribute('name'), 'user/index') ?> |
-	<?php //echo link_to('Game board', 'game') ?> |
+	<?php echo link_to('Game board', 'game/index') ?> |
 	<?php echo link_to('Hiscores', 'hiscore/index') ?> |
 	<?php echo link_to('Logout', 'user/logout') ?>
 <?php else: ?>
