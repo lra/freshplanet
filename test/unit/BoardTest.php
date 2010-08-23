@@ -10,14 +10,15 @@ new sfDatabaseManager($configuration);
 /**
  * Number of tests to do
  */
-$t = new lime_test(2);
+$t = new lime_test(3);
 
 /**
  * The tests
  */
 
 $b = Board::generate(5);
-
 $t->is(get_class($b), 'Board');
 
 $t->is($b->getSize(), 25);
+
+$t->is(strlen($b->dump()), 25);

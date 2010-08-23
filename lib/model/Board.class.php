@@ -61,4 +61,29 @@ class Board
 	{
 		return count($this->tiles);
 	}
+	
+	public function dump()
+	{
+		$binary_data = '';
+
+		foreach ($this->tiles as $tile)
+		{
+			$binary_data .= pack('C', $tile->getValue());
+		}
+
+		return $binary_data;
+	}
+	
+	public function leftClick($offset)
+	{
+		if (!isset($this->tiles[$offset]))
+		{
+			throw new Exception('Tile not found');
+		}
+	
+		if ($this->tiles[$offset]->isUntouched())
+		{
+			$this->tiles[$offset]->setRevealed();			
+		}
+	}
 }

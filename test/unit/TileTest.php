@@ -41,7 +41,6 @@ $t->ok(!$tile->isFlagged());
 $t->ok(!$tile->isQuestioned());
 $t->ok($tile->isRevealed());
 
-
 $tile->setMined();
 
 $t->ok($tile->isMined());
