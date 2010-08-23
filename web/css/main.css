@@ -112,7 +112,17 @@ table.hiscores th, table.hiscores td {
 }
 
 table.board {
-		border: 1px solid #8F8F8F;
+	border: 5px solid #8F8F8F;
+	border-collapse: collapse;
+}
+
+table.board td {
+	padding: 0;
+}
+
+table.board td img {
+	border: 0;
+	display: block;
 }
 
 .bottom {
