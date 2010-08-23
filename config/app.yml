@@ -1,0 +1,5 @@
+all:
+  board:
+    minsize: 10
+    maxsize: 100
+    minepercentage: 10
