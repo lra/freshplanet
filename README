@@ -6,9 +6,10 @@ Time spent for now:
  * Initial game design: 1 hour
  * Yaml schema design: 2 hours
  * Symfony understanding and application building: 5 hours
- * Basic authentification system: 2 hours
+ * Basic authentification system: 3 hours
  * Hiscore listings: 2 hours
  * Class modeling + UT/TDD: 2 hours
+ * CSS tweaking: 1 hour
 
 Suppositions:
 
