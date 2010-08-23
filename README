@@ -40,9 +40,9 @@ Data structures:
 	 	 * BLOB board consisting of squares of 3 bits each
 		 	 * 1st bit: SQUARE_MINED (1) or SQUARE_EMPTY (0)
 			 * 2nd and 3rd bit
-			 	 * USER_NONE (00)
+			 	 * USER_UNTOUCHED (00)
 				 * USER_FLAGGED (01)
-				 * USER_QUESTION (10)
+				 * USER_QUESTIONED (10)
 				 * USER_REVEALED (11)
 	 * Current game time in seconds (INT)
 	 * Last action time (DATETIME)
