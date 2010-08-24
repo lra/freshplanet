@@ -2,6 +2,17 @@
 
 class Board
 {
+	/**
+	 * Constants
+	 */
+
+	const GAME_NOTHING = 1;
+	const GAME_FLAGGED = 2;
+	const GAME_QUESTIONED = 3;
+	const GAME_DISCOVERED = 4;
+	const GAME_WON = 5;
+	const GAME_LOST = 6;
+
 	private $tiles;
 
 	/**
@@ -101,6 +112,11 @@ class Board
 		}
 
 		return $this->tiles[$offset];
+	}
+
+	public function getTiles()
+	{
+		return $this->tiles;
 	}
 	
 	public function leftClick($offset)

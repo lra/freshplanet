@@ -21,6 +21,7 @@ class Tile
 	/**
 	 * Corresponding icons
 	 *
+	 * Internal states:
 	 * 0: up.png
 	 * 1: up-flag.png
 	 * 2: up-question.png
@@ -30,6 +31,21 @@ class Tile
 	 * 6: up-question.png
 	 * 7: bomb.png
 	 */
+
+	/**
+	 *
+	 * Public states:
+	 * 0: up.png (up)
+	 * 1: up-flag.png (flag)
+	 * 2: up-question.png (question)
+	 * 3: empty.png (empty)
+	 * 7: bomb.png (bomb)
+	 */
+	const PUB_UP = 1;
+	const PUB_FLAG = 2;
+	const PUB_QUESTION = 3;
+	const PUB_EMPTY = 4;
+	const PUB_BOMB = 5;
 
 	private $value;
 
@@ -59,6 +75,35 @@ class Tile
 	public function getValue()
 	{
 		return $this->value;
+	}
+
+	public function getState()
+	{
+		switch ($this->getValue())
+		{
+		case Tile::STATE_EMPTY|Tile::STATE_UNTOUCHED:
+		case Tile::STATE_MINED|Tile::STATE_UNTOUCHED:
+			$state = Tile::PUB_UP;
+			break;
+		case Tile::STATE_EMPTY|Tile::STATE_FLAGGED:
+		case Tile::STATE_MINED|Tile::STATE_FLAGGED:
+			$state = Tile::PUB_FLAG;
+			break;
+		case Tile::STATE_EMPTY|Tile::STATE_QUESTIONED:
+		case Tile::STATE_MINED|Tile::STATE_QUESTIONED:
+			$state = Tile::PUB_QUESTION;
+			break;
+		case Tile::STATE_EMPTY|Tile::STATE_REVEALED:
+			$state = Tile::PUB_EMPTY;
+			break;
+		case Tile::STATE_MINED|Tile::STATE_REVEALED:
+			$state = Tile::PUB_BOMB;
+			break;
+		default:
+			throw new Exception('Unknown value:'.$this->getValue());
+		}
+
+		return $state;
 	}
 
 	// Mine bit

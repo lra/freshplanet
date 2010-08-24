@@ -84,8 +84,8 @@ The frontend/game module of the application will make requests to the frontend/j
 The frontend/json module will update the game data and send back the data to the frontend/game module with JSON.
 
 The possible actions will be the requests:
- * getFullGameboard?user_id=123 - Get every square state composing the gameboard
- * clickTile?user_id=123&tile_offset=456 - discover a tile and get every tile state that was changed by this action
+ * getFullGameboard - Get every square state composing the gameboard
+ * clickTile?offset=456 - discover a tile and get every tile state that was changed by this action
 
 An example of full game board sent back with JSON:
 {
