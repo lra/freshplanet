@@ -65,7 +65,17 @@ function clickTile(id)
 	var offset = id.substring('tile_'.length, id.length);
 	if ($('#'+id).hasClass('clickable'))
 	{
-		setState(offset, 10);
+		// Handler for .ready() called.
+		$.getJSON('/json/clickTile?offset='+offset, function(data)
+		{
+			$('#loading').show();
+			for (var x in data.board)
+			{
+				var tile = data.board[x];
+				setState(tile.offset, tile.state);
+			}
+			$('#loading').hide();
+		})
 	}
 }
 
