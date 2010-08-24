@@ -10,26 +10,23 @@
  * @property string $firstname
  * @property string $lastname
  * @property blob $game_board
- * @property integer $game_time
- * @property timestamp $last_action_at
+ * @property timestamp $game_start
  * @property Doctrine_Collection $Hiscore
  * 
- * @method integer             getId()             Returns the current record's "id" value
- * @method string              getEmail()          Returns the current record's "email" value
- * @method string              getFirstname()      Returns the current record's "firstname" value
- * @method string              getLastname()       Returns the current record's "lastname" value
- * @method blob                getGameBoard()      Returns the current record's "game_board" value
- * @method integer             getGameTime()       Returns the current record's "game_time" value
- * @method timestamp           getLastActionAt()   Returns the current record's "last_action_at" value
- * @method Doctrine_Collection getHiscore()        Returns the current record's "Hiscore" collection
- * @method User                setId()             Sets the current record's "id" value
- * @method User                setEmail()          Sets the current record's "email" value
- * @method User                setFirstname()      Sets the current record's "firstname" value
- * @method User                setLastname()       Sets the current record's "lastname" value
- * @method User                setGameBoard()      Sets the current record's "game_board" value
- * @method User                setGameTime()       Sets the current record's "game_time" value
- * @method User                setLastActionAt()   Sets the current record's "last_action_at" value
- * @method User                setHiscore()        Sets the current record's "Hiscore" collection
+ * @method integer             getId()         Returns the current record's "id" value
+ * @method string              getEmail()      Returns the current record's "email" value
+ * @method string              getFirstname()  Returns the current record's "firstname" value
+ * @method string              getLastname()   Returns the current record's "lastname" value
+ * @method blob                getGameBoard()  Returns the current record's "game_board" value
+ * @method timestamp           getGameStart()  Returns the current record's "game_start" value
+ * @method Doctrine_Collection getHiscore()    Returns the current record's "Hiscore" collection
+ * @method User                setId()         Sets the current record's "id" value
+ * @method User                setEmail()      Sets the current record's "email" value
+ * @method User                setFirstname()  Sets the current record's "firstname" value
+ * @method User                setLastname()   Sets the current record's "lastname" value
+ * @method User                setGameBoard()  Sets the current record's "game_board" value
+ * @method User                setGameStart()  Sets the current record's "game_start" value
+ * @method User                setHiscore()    Sets the current record's "Hiscore" collection
  * 
  * @package    minesweeper
  * @subpackage model
@@ -68,10 +65,7 @@ abstract class BaseUser extends sfDoctrineRecord
         $this->hasColumn('game_board', 'blob', null, array(
              'type' => 'blob',
              ));
-        $this->hasColumn('game_time', 'integer', null, array(
-             'type' => 'integer',
-             ));
-        $this->hasColumn('last_action_at', 'timestamp', null, array(
+        $this->hasColumn('game_start', 'timestamp', null, array(
              'type' => 'timestamp',
              ));
 

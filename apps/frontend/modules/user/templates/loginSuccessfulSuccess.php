@@ -10,4 +10,17 @@
    </ul>
 
    <p>You can now start playing a game or continue to play your last gameboard.</p>
+
+	<h3>Start a new game</h3>
+   
+	<form action="<?php echo url_for('game/new') ?>" method="post">
+	 <table style="border: 0">
+   	<?php echo $gameForm; ?>
+		<tr>
+		 <td colspan="2">
+		  <input type="submit" />
+		 </td>
+		</tr>
+	 </table>
+	</form>
 </div>

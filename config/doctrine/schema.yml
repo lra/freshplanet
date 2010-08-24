@@ -22,9 +22,7 @@ User:
       notblank: true
     game_board:
       type: blob
-    game_time:
-      type: integer
-    last_action_at:
+    game_start:
       type: timestamp
   actAs:
     Timestampable:

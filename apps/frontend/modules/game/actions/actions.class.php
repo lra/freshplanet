@@ -17,5 +17,56 @@ class gameActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
+		$user = $this->getUser();
+		$dbUser = Doctrine_Core::getTable('User')->find($user->getAttribute('id'));
+		if (get_class($dbUser) === 'User')
+		{
+			$this->board = new Board($dbUser->getGameBoard());
+			if (get_class($this->board) !== 'Board')
+			{
+				$user->setFlash('error', 'Unable to load the game board');
+				$this->redirect('user/index');
+			}
+		}
+		else
+		{
+			$user->setFlash('error', 'Unable to find the user');
+			$this->redirect('user/index');
+		}
+  }
+  
+  public function executeNew(sfWebRequest $request)
+  {
+		// This action should only be accessed the user form
+		$this->forward404Unless($request->isMethod('post'));
+
+		$width = intval($request->getParameter('width'));
+		$user = $this->getUser();
+
+		// Create a new board
+		$board = Board::generate($width);
+		if (get_class($board) !== 'Board')
+		{
+			$user->setFlash('error', 'Unable to create the game board');
+			$this->redirect('user/index');
+		}
+
+		// Try to find the user
+		$dbUser = Doctrine_Core::getTable('User')->find($user->getAttribute('id'));
+		if (get_class($dbUser) === 'User')
+		{
+			// Saves the game board
+			$dbUser->setGameBoard($board->dump());
+			
+			// Saves the current time
+			$dbUser->setGameStart(time());
+			$dbUser->save();
+			$this->redirect('game/index');
+		}
+		else
+		{
+			$user->setFlash('error', 'Unable to find the user');
+			$this->redirect('user/index');
+		}
   }
 }

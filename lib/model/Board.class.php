@@ -17,10 +17,10 @@ class Board
 
 		$boardsize = $boardwidth * $boardwidth;
 
-		if ($boardsize < sfConfig::get('app_board_minsize')
-				|| $boardsize > sfConfig::get('app_board_maxsize'))
+		if ($boardsize < sfConfig::get('app_board_minwidth')*sfConfig::get('app_board_minwidth')
+				|| $boardsize > sfConfig::get('app_board_maxwidth')*sfConfig::get('app_board_maxwidth'))
 		{
-			throw new Exception('Invalid board size');
+			throw new Exception('Invalid board size: '.$boardsize);
 		}
 
 		$binary_data = '';
@@ -32,7 +32,8 @@ class Board
 			{
 				$tile->setMined();
 			}
-			$binary_data .= pack('C', $tile->getValue());
+			//$binary_data .= pack('C', $tile->getValue());
+			$binary_data .= strval($tile->getValue());
 		}
 
 		return new Board($binary_data);
@@ -49,7 +50,12 @@ class Board
 			throw new Exception('A string containing the binary data is required');
 		}
 
-		$tiles_data = unpack('C*', $binary_data);
+		//$tiles_data = unpack('C*', $binary_data);
+		$tiles_data = array();
+		for ($i = 0; $i < strlen($binary_data); $i++)
+		{
+			$tiles_data[] = intval($binary_data[$i]);
+		}
 
 		foreach ($tiles_data as $tile_value)
 		{
@@ -57,21 +63,44 @@ class Board
 		}
 	}
 
+	public function getWidth()
+	{
+		$width = sqrt($this->getSize());
+
+		if ($width != floor($width))
+		{
+			throw new Exception('Invalid board size: '.$this->getSize());
+		}
+
+		return $width;
+	}
+	
 	public function getSize()
 	{
 		return count($this->tiles);
 	}
-	
+
 	public function dump()
 	{
 		$binary_data = '';
 
 		foreach ($this->tiles as $tile)
 		{
-			$binary_data .= pack('C', $tile->getValue());
+			// $binary_data .= pack('C', $tile->getValue());
+			$binary_data .= strval($tile->getValue());
+		}
+		
+		return $binary_data;
+	}
+
+	public function getTile($offset)
+	{
+		if (!isset($this->tiles[$offset]))
+		{
+			throw new Exception('Tile not found');
 		}
 
-		return $binary_data;
+		return $this->tiles[$offset];
 	}
 	
 	public function leftClick($offset)

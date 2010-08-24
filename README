@@ -10,6 +10,7 @@ Time spent for now:
  * Hiscore listings: 2 hours
  * Class modeling + UT/TDD: 2 hours
  * CSS tweaking: 1 hour
+ * Board display: 1 hour
 
 Suppositions:
 
@@ -46,8 +47,7 @@ Data structures:
 				 * USER_FLAGGED (01)
 				 * USER_QUESTIONED (10)
 				 * USER_REVEALED (11)
-	 * Current game time in seconds (INT)
-	 * Last action time (DATETIME)
+	 * Game start time (DATETIME)
 
  * Hiscores
  	 * id (PK)
@@ -85,7 +85,7 @@ The frontend/json module will update the game data and send back the data to the
 
 The possible actions will be the requests:
  * getFullGameboard?user_id=123 - Get every square state composing the gameboard
- * clickSquare?user_id=123&square_offset=456 - discover a square and get every square state that was changed by this action
+ * clickTile?user_id=123&tile_offset=456 - discover a tile and get every tile state that was changed by this action
 
 An example of full game board sent back with JSON:
 {

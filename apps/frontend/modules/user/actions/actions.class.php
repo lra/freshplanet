@@ -135,6 +135,7 @@ class userActions extends sfActions
   {
 		$user = $this->getUser();
 		$this->dbUser = Doctrine_Core::getTable('User')->find($user->getAttribute('id'));
+		$this->gameForm = new GameForm();
 	}
 
  /**

@@ -15,27 +15,25 @@ abstract class BaseUserForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'             => new sfWidgetFormInputHidden(),
-      'email'          => new sfWidgetFormInputText(),
-      'firstname'      => new sfWidgetFormInputText(),
-      'lastname'       => new sfWidgetFormInputText(),
-      'game_board'     => new sfWidgetFormTextarea(),
-      'game_time'      => new sfWidgetFormInputText(),
-      'last_action_at' => new sfWidgetFormDateTime(),
-      'created_at'     => new sfWidgetFormDateTime(),
-      'updated_at'     => new sfWidgetFormDateTime(),
+      'id'         => new sfWidgetFormInputHidden(),
+      'email'      => new sfWidgetFormInputText(),
+      'firstname'  => new sfWidgetFormInputText(),
+      'lastname'   => new sfWidgetFormInputText(),
+      'game_board' => new sfWidgetFormTextarea(),
+      'game_start' => new sfWidgetFormDateTime(),
+      'created_at' => new sfWidgetFormDateTime(),
+      'updated_at' => new sfWidgetFormDateTime(),
     ));
 
     $this->setValidators(array(
-      'id'             => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'email'          => new sfValidatorEmail(array('max_length' => 255)),
-      'firstname'      => new sfValidatorString(array('max_length' => 255)),
-      'lastname'       => new sfValidatorString(array('max_length' => 255)),
-      'game_board'     => new sfValidatorString(array('required' => false)),
-      'game_time'      => new sfValidatorInteger(array('required' => false)),
-      'last_action_at' => new sfValidatorDateTime(array('required' => false)),
-      'created_at'     => new sfValidatorDateTime(),
-      'updated_at'     => new sfValidatorDateTime(),
+      'id'         => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'email'      => new sfValidatorEmail(array('max_length' => 255)),
+      'firstname'  => new sfValidatorString(array('max_length' => 255)),
+      'lastname'   => new sfValidatorString(array('max_length' => 255)),
+      'game_board' => new sfValidatorString(array('required' => false)),
+      'game_start' => new sfValidatorDateTime(array('required' => false)),
+      'created_at' => new sfValidatorDateTime(),
+      'updated_at' => new sfValidatorDateTime(),
     ));
 
     $this->validatorSchema->setPostValidator(
