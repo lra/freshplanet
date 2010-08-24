@@ -7,11 +7,7 @@
 	<tr>
 		<?php for ($x = 0; $x < $board->getWidth(); $x++): ?>
 		<td>
-			<div id="tile_<?php echo($x+$y*$board->getWidth()) ?>">
-				<a href="">
-					<img src="/images/up.png" />
-				</a>
-			</div>
+			<img id="tile_<?php echo($x+$y*$board->getWidth()) ?>" src="/images/up.png" />
 		</td>
 		<?php endfor; ?>
 	</tr>

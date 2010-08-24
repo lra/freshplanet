@@ -1,3 +1,4 @@
+// Changes a tile
 function setState(id, newState)
 {
 	/*
@@ -35,9 +36,17 @@ function setState(id, newState)
 		case 18: icon = '8'; break;
 	}
 	
-	$(id+' img').attr('src', '/images/'+icon+'.png');
+	$('img#tile_'+id).attr('src', '/images/'+icon+'.png');
 }
 
+function clickTile(id)
+{
+	var offset = id.substring('tile_'.length, id.length);
+	console.log(offset);
+	setState(offset, 10);
+}
+
+// On page load
 $(document).ready(function()
 {
 	// Handler for .ready() called.
@@ -46,8 +55,14 @@ $(document).ready(function()
 		for (var x in data.board)
 		{
 			var tile = data.board[x];
-			setState('#tile_'+tile.offset, tile.state);
+			setState(tile.offset, tile.state);
 		}
 		$('#loading').hide();
 	})
+
+	// When the user click on a tile
+	$('table.board img').click(function()
+	{
+		clickTile(this.id);
+	});
 });
