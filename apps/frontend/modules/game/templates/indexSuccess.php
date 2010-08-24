@@ -15,5 +15,3 @@
 </table>
 
 <p class="legend" id="loading"><img src="/images/ajax-loader.gif" /><br />Loading...</p>
-
-<p class="legend">Board size: <?php echo $board->getSize(); ?></p>
