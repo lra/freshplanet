@@ -18,6 +18,19 @@ class Tile
 	// Default value of a tile
 	const STATE_DEFAULT = 0;
 
+	/**
+	 * Corresponding icons
+	 *
+	 * 0: up.png
+	 * 1: up-flag.png
+	 * 2: up-question.png
+	 * 3: empty.png
+	 * 4: up.png
+	 * 5: up-flag.png
+	 * 6: up-question.png
+	 * 7: bomb.png
+	 */
+
 	private $value;
 
 	/**
