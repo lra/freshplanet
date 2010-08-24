@@ -37,13 +37,36 @@ function setState(id, newState)
 	}
 	
 	$('img#tile_'+id).attr('src', '/images/'+icon+'.png');
+
+	switch (newState)
+	{
+		case 1:
+		case 2:
+		case 3:
+			$('img#tile_'+id).toggleClass('clickable', true);
+			break;
+		case 4:
+		case 10:
+		case 11:
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+		case 16:
+		case 17:
+		case 18:
+			$('img#tile_'+id).toggleClass('clickable', false);
+			break;
+	}
 }
 
 function clickTile(id)
 {
 	var offset = id.substring('tile_'.length, id.length);
-	console.log(offset);
-	setState(offset, 10);
+	if ($('#'+id).hasClass('clickable'))
+	{
+		setState(offset, 10);
+	}
 }
 
 // On page load
