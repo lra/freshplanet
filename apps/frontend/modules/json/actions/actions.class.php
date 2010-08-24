@@ -25,6 +25,7 @@ class jsonActions extends sfActions
 	public function executeGetFullGameboard(sfWebRequest $request)
 	{
 		$data = array();
+		$allowed_states = array(1, 2, 3, 4, 10, 11, 12, 13, 14, 15, 16, 17, 18);
 
 		// Load the user
 		$user = $this->getUser();
@@ -40,9 +41,10 @@ class jsonActions extends sfActions
 				$offset = 0;
 				foreach ($board->getTiles() as $tile)
 				{
-					$data['board'][] = array('offset' => $offset,
-																	 // 'state' => $tile->getState());
-																	 'state' => rand(1, 5));
+					$data['board'][] = array(
+						'offset' => $offset,
+						// 'state' => $tile->getState());
+						'state' => $allowed_states[array_rand($allowed_states)]);
 					$offset++;
 				}
 			}

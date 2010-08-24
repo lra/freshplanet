@@ -33,19 +33,21 @@ class Tile
 	 */
 
 	/**
-	 *
 	 * Public states:
-	 * 0: up.png (up)
-	 * 1: up-flag.png (flag)
-	 * 2: up-question.png (question)
-	 * 3: empty.png (empty)
-	 * 7: bomb.png (bomb)
 	 */
 	const PUB_UP = 1;
 	const PUB_FLAG = 2;
 	const PUB_QUESTION = 3;
-	const PUB_EMPTY = 4;
-	const PUB_BOMB = 5;
+	const PUB_BOMB = 4;
+	const PUB_EMPTY = 10;
+	const PUB_1 = 11;
+	const PUB_2 = 12;
+	const PUB_3 = 13;
+	const PUB_4 = 14;
+	const PUB_5 = 15;
+	const PUB_6 = 16;
+	const PUB_7 = 17;
+	const PUB_8 = 18;
 
 	private $value;
 
