@@ -45,7 +45,7 @@ class jsonActions extends sfActions
 					$data['board'][] = array(
 						'offset' => $offset,
 						// 'state' => $tile->getState());
-					'state' => $allowed_states[array_rand($allowed_states)]);
+						'state' => $tile->getState());
 					$offset++;
 				}
 			}
@@ -58,6 +58,7 @@ class jsonActions extends sfActions
 	{
 		$data = array();
 		$allowed_states = array(1, 2, 3, 4, 10, 11, 12, 13, 14, 15, 16, 17, 18);
+		$offset = $request->getParameter('offset');
 
 		$user = $this->getUser();
 		$dbUser = Doctrine_Core::getTable('User')->find($user->getAttribute('id'));
@@ -67,14 +68,16 @@ class jsonActions extends sfActions
 			$board = new Board($dbUser->getGameBoard());
 			if (get_class($board) === 'Board')
 			{
+				$board->leftClick($offset);
+				$dbUser->setGameBoard($board->dump());
+				$dbUser->save();
 				$data['result'] = Board::GAME_NOTHING;
 				$data['board'] = array();
-				$offset = $request->getParameter('offset');
 				$data['board'][] = array
 				(
 					'offset' => $offset,
 					// 'state' => $tile->getState());
-					'state' => $allowed_states[array_rand($allowed_states)]
+					'state' => $board->getTile($offset)->getState()
 				);
 			}
 		}
