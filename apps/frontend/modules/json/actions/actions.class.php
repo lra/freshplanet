@@ -45,10 +45,14 @@ class jsonActions extends sfActions
 				$offset = 0;
 				foreach ($board->getTiles() as $tile)
 				{
+					$state = $tile->getState();
+					if ($state === Tile::PUB_EMPTY)
+					{
+						$state += $board->getMinesAround($offset);
+					}
 					$data['board'][] = array(
 						'offset' => $offset,
-						// 'state' => $tile->getState());
-						'state' => $tile->getState());
+						'state' => $state);
 					$offset++;
 				}
 			}
@@ -78,12 +82,19 @@ class jsonActions extends sfActions
 				$dbUser->setGameBoard($board->dump());
 				$dbUser->save();
 				$data['board'] = array();
-				$data['board'][] = array
-				(
-					'offset' => $offset,
-					// 'state' => $tile->getState());
-					'state' => $board->getTile($offset)->getState()
-				);
+
+				$current_offset = 0;
+				foreach ($board->getTiles() as $tile)
+				{
+					$state = $tile->getState();
+					if ($state === Tile::PUB_EMPTY)
+					{
+						$state += $board->getMinesAround($current_offset);
+					}
+					$data['board'][] = array('offset' => $current_offset,
+																	 'state' => $state);
+					$current_offset++;
+				}
 			}
 		}
 		

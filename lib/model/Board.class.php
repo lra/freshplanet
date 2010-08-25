@@ -136,9 +136,122 @@ class Board
 		{
 			$tile->setRevealed();			
 			$return = Board::GAME_DISCOVERED;
+
+			if ($this->isWon())
+			{
+				$return = Board::GAME_WON;
+			}
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Check if the gameboard have been fully resolved
+	 * For each tile:
+	 *  - if the tile is not mined then its state must be revealed)
+	 *  - if the tile is mined then its state must be flagged)
+	 * @return boolean True if the board has been won
+	 */
+	public function isWon()
+	{
+		foreach ($this->getTiles() as $tile)
+		{
+			if ($tile->isMined())
+			{
+				if (!$tile->isFlagged())
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (!$tile->isRevealed())
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Returns the number of mines around the specified tile
+	 * Need to check at most those 8 tiles:
+	 * 123
+	 * 4 6
+	 * 789
+	 */
+
+	public function getMinesAround($offset)
+	{
+		$nb_mines = 0;
+		$x_pos = intval($offset % $this->getWidth());
+		$y_pos = intval($offset / $this->getWidth());
+		$width = $this->getWidth();
+		$to_check = array();
+		
+		// Pos 1
+		if ($x_pos > 0 && $y_pos > 0)
+		{
+			$to_check[] = $offset - $width - 1;
+		}
+
+		// Pos 2
+		if ($y_pos > 0)
+		{
+			$to_check[] = $offset - $width;
+		}
+
+		// Pos 3
+		if (($x_pos < $width - 1) && $y_pos > 0)
+		{
+			$to_check[] = $offset - $width + 1;
+		}
+
+		// Pos 4
+		if ($x_pos > 0)
+		{
+			$to_check[] = $offset - 1;
+		}
+
+		// Pos 6
+		if ($x_pos < $width - 1)
+		{
+			$to_check[] = $offset + 1;
+		}
+
+		// Pos 7
+		if ($x_pos > 0 && ($y_pos < $width - 1))
+		{
+			$to_check[] = $offset + $width - 1;
+		}
+
+		// Pos 8
+		if ($y_pos < $width - 1)
+		{
+			$to_check[] = $offset + $width;
+		}
+
+		// Pos 9
+		if (($x_pos < $width - 1) && ($y_pos < $width - 1))
+		{
+			$to_check[] = $offset + $width + 1;
+		}
+		/* var_dump($offset); */
+		/* var_dump($x_pos); */
+		/* var_dump($y_pos); */
+		/* var_dump($to_check); */
+		foreach ($to_check as $c)
+		{
+			if ($this->tiles[$c]->isMined())
+			{
+				$nb_mines++;
+			}
+		}
+
+		return $nb_mines;
 	}
 
 	public function flagTile($offset)
