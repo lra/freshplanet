@@ -18,7 +18,6 @@ Suppositions:
  * There can be 1 million users and 1 billion hiscores for a start
  * A user can only play one game at a time
  * A minesweeper game board is squared
- * Maximum game time to resolve a board is 1 day
 
 Rules:
 
@@ -27,8 +26,8 @@ Rules:
 
 Constants:
 
- * Minimum width of a board: 10
- * Maximum width of a board: 100
+ * Minimum width of a board: 5
+ * Maximum width of a board: 50
  * Percentage of mines: 10
 
 Data structures:
