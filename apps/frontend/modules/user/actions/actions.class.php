@@ -20,6 +20,14 @@ class userActions extends sfActions
 		// If the user is already authenticated, no need to display the login forms
 		if ($this->getUser()->isAuthenticated())
 		{
+			if ($this->getUser()->hasFlash('error'))
+			{
+				$this->getUser()->setFlash('error', $this->getUser()->getFlash('error'));
+			}
+			if ($this->getUser()->hasFlash('notice'))
+			{
+				$this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice'));
+			}
 			$this->redirect('user/loginSuccessful');
 		}
 
