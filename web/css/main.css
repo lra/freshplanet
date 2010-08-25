@@ -52,6 +52,18 @@ h1 {
 		color: red;
 }
 
+.red {
+		color: red;
+}
+
+.green {
+		color: green;
+}
+
+.grey {
+		color: grey;
+}
+
 .menu {
 		text-align: center;
 		margin: 25px 0;
@@ -115,12 +127,6 @@ ul.message {
 		padding-left: 30px;
 }
 
-.legend {
-		margin: 50px auto;
-		text-align: center;
-		font-style: italic;
-}
-
 table.board {
 	border: 5px solid #8F8F8F;
 	border-collapse: collapse;
@@ -147,4 +153,9 @@ table.board td img {
 
 #flag_on, #question_on {
 		display: none;
+}
+
+#status {
+		margin: 25px auto;
+		width: 150px;
 }

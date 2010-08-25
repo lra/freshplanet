@@ -68,40 +68,40 @@ function clickTile(id)
 		// Flag a tile
 		if ($('#flag_on').is(':visible'))
 		{
+				$('#status > span').text('Loading...');
 				$.getJSON('/json/flagTile?offset='+offset, function(data)
 				{
-						$('#loading').show();
 						for (var x in data.board) {
 								var tile = data.board[x];
 								setState(tile.offset, tile.state);
 						}
-						$('#loading').hide();
+						$('#status > span').text('--');
 				})
 		}
 		// Question a tile
 		else if ($('#question_on').is(':visible'))
 		{
+				$('#status > span').text('Loading...');
 				$.getJSON('/json/questionTile?offset='+offset, function(data)
 				{
-						$('#loading').show();
 						for (var x in data.board) {
 								var tile = data.board[x];
 								setState(tile.offset, tile.state);
 						}
-						$('#loading').hide();
+						$('#status > span').text('--');
 				})
 		}
 		// Click a tile
 		else
 		{
+				$('#status > span').text('Loading...');
 				$.getJSON('/json/clickTile?offset='+offset, function(data)
 				{
-						$('#loading').show();
 						for (var x in data.board) {
 								var tile = data.board[x];
 								setState(tile.offset, tile.state);
 						}
-						$('#loading').hide();
+						$('#status > span').text('--');
 				})
 		}
 	}
@@ -150,7 +150,7 @@ $(document).ready(function()
 			var tile = data.board[x];
 			setState(tile.offset, tile.state);
 		}
-		$('#loading').hide();
+		$('#status > span').text('--');
 	})
 
 	// When the user click on a tile
