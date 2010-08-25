@@ -126,9 +126,52 @@ class Board
 			throw new Exception('Tile not found');
 		}
 	
-		if ($this->tiles[$offset]->isUntouched())
+		$tile = $this->tiles[$offset];
+		if (!$tile->isRevealed())
 		{
-			$this->tiles[$offset]->setRevealed();			
+			$tile->setRevealed();			
+		}
+	}
+
+	public function flagTile($offset)
+	{
+		if (!isset($this->tiles[$offset]))
+		{
+			throw new Exception('Tile not found');
+		}
+
+		$tile = $this->tiles[$offset];
+		if (!$tile->isRevealed())
+		{
+			if ($tile->isFlagged())
+			{
+				$tile->setUntouched();
+			}
+			else
+			{
+				$tile->setFlagged();
+			}
+		}
+	}
+
+	public function questionTile($offset)
+	{
+		if (!isset($this->tiles[$offset]))
+		{
+			throw new Exception('Tile not found');
+		}
+
+		$tile = $this->tiles[$offset];
+		if (!$tile->isRevealed())
+		{
+			if ($tile->isQuestioned())
+			{
+				$tile->setUntouched();
+			}
+			else
+			{
+				$tile->setQuestioned();
+			}
 		}
 	}
 }

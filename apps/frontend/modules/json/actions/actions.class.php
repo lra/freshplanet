@@ -23,10 +23,12 @@ class jsonActions extends sfActions
 		return $this->renderComponent('json', 'json', array('data' => $data));
 	}
 
+	/**
+	 * Retrieve the full game board state with JSON
+	 */
 	public function executeGetFullGameboard(sfWebRequest $request)
 	{
 		$data = array();
-		$allowed_states = array(1, 2, 3, 4, 10, 11, 12, 13, 14, 15, 16, 17, 18);
 
 		// Load the user
 		$user = $this->getUser();
@@ -54,10 +56,12 @@ class jsonActions extends sfActions
 		return $this->renderComponent('json', 'json', array('data' => $data));
 	}
 	
+	/**
+	 * Click a tile and retrieve the state of the changed tiles with JSON
+	 */
 	public  function executeClickTile(sfWebRequest $request)
 	{
 		$data = array();
-		$allowed_states = array(1, 2, 3, 4, 10, 11, 12, 13, 14, 15, 16, 17, 18);
 		$offset = $request->getParameter('offset');
 
 		$user = $this->getUser();
@@ -69,6 +73,72 @@ class jsonActions extends sfActions
 			if (get_class($board) === 'Board')
 			{
 				$board->leftClick($offset);
+				$dbUser->setGameBoard($board->dump());
+				$dbUser->save();
+				$data['result'] = Board::GAME_NOTHING;
+				$data['board'] = array();
+				$data['board'][] = array
+				(
+					'offset' => $offset,
+					// 'state' => $tile->getState());
+					'state' => $board->getTile($offset)->getState()
+				);
+			}
+		}
+		
+		return $this->renderComponent('json', 'json', array('data' => $data));		
+	}
+
+	/**
+	 * Flag/unflag a tile and retrieve its state with JSON
+	 */
+	public  function executeFlagTile(sfWebRequest $request)
+	{
+		$data = array();
+		$offset = $request->getParameter('offset');
+
+		$user = $this->getUser();
+		$dbUser = Doctrine_Core::getTable('User')->find($user->getAttribute('id'));
+		if (get_class($dbUser) === 'User')
+		{
+			// Load the game board
+			$board = new Board($dbUser->getGameBoard());
+			if (get_class($board) === 'Board')
+			{
+				$board->flagTile($offset);
+				$dbUser->setGameBoard($board->dump());
+				$dbUser->save();
+				$data['result'] = Board::GAME_NOTHING;
+				$data['board'] = array();
+				$data['board'][] = array
+				(
+					'offset' => $offset,
+					// 'state' => $tile->getState());
+					'state' => $board->getTile($offset)->getState()
+				);
+			}
+		}
+		
+		return $this->renderComponent('json', 'json', array('data' => $data));		
+	}
+
+	/**
+	 * Question/unquestion a tile and retrieve its state with JSON
+	 */
+	public  function executeQuestionTile(sfWebRequest $request)
+	{
+		$data = array();
+		$offset = $request->getParameter('offset');
+
+		$user = $this->getUser();
+		$dbUser = Doctrine_Core::getTable('User')->find($user->getAttribute('id'));
+		if (get_class($dbUser) === 'User')
+		{
+			// Load the game board
+			$board = new Board($dbUser->getGameBoard());
+			if (get_class($board) === 'Board')
+			{
+				$board->questionTile($offset);
 				$dbUser->setGameBoard($board->dump());
 				$dbUser->save();
 				$data['result'] = Board::GAME_NOTHING;

@@ -85,7 +85,9 @@ The frontend/json module will update the game data and send back the data to the
 
 The possible actions will be the requests:
  * getFullGameboard - Get every square state composing the gameboard
- * clickTile?offset=456 - discover a tile and get every tile state that was changed by this action
+ * clickTile?offset=123 - discover a tile and get every tile state that was changed by this action
+ * flagTile?offset=456 - flag or unflag an undiscovered tile and get its new state
+ * questionTile?offset=789 - question or unquestion an undiscovered tile and get its new state
 
 An example of full game board sent back with JSON:
 {

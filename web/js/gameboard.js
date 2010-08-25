@@ -65,17 +65,77 @@ function clickTile(id)
 	var offset = id.substring('tile_'.length, id.length);
 	if ($('#'+id).hasClass('clickable'))
 	{
-		// Handler for .ready() called.
-		$.getJSON('/json/clickTile?offset='+offset, function(data)
+		// Flag a tile
+		if ($('#flag_on').is(':visible'))
 		{
-			$('#loading').show();
-			for (var x in data.board)
-			{
-				var tile = data.board[x];
-				setState(tile.offset, tile.state);
-			}
-			$('#loading').hide();
-		})
+				$.getJSON('/json/flagTile?offset='+offset, function(data)
+				{
+						$('#loading').show();
+						for (var x in data.board) {
+								var tile = data.board[x];
+								setState(tile.offset, tile.state);
+						}
+						$('#loading').hide();
+				})
+		}
+		// Question a tile
+		else if ($('#question_on').is(':visible'))
+		{
+				$.getJSON('/json/questionTile?offset='+offset, function(data)
+				{
+						$('#loading').show();
+						for (var x in data.board) {
+								var tile = data.board[x];
+								setState(tile.offset, tile.state);
+						}
+						$('#loading').hide();
+				})
+		}
+		// Click a tile
+		else
+		{
+				$.getJSON('/json/clickTile?offset='+offset, function(data)
+				{
+						$('#loading').show();
+						for (var x in data.board) {
+								var tile = data.board[x];
+								setState(tile.offset, tile.state);
+						}
+						$('#loading').hide();
+				})
+		}
+	}
+}
+
+function switchFlag()
+{
+	if ($('#flag_on').is(':visible'))
+  {
+		$('#flag_on').hide();
+		$('#flag_off').show();
+	}
+  else
+	{
+		$('#flag_off').hide();
+		$('#flag_on').show();
+		$('#question_on').hide();
+		$('#question_off').show();
+	}
+}
+
+function switchQuestion()
+{
+	if ($('#question_on').is(':visible'))
+  {
+		$('#question_on').hide();
+		$('#question_off').show();
+	}
+  else
+	{
+		$('#question_off').hide();
+		$('#question_on').show();
+		$('#flag_on').hide();
+		$('#flag_off').show();
 	}
 }
 
@@ -98,4 +158,18 @@ $(document).ready(function()
 	{
 		clickTile(this.id);
 	});
+});
+
+// Handler for keys pressed
+$(document).keypress(function(event)
+{
+		switch (event.which)
+		{
+		case 102:
+				switchFlag();
+				break;
+		case 113:
+				switchQuestion();
+				break;
+		}
 });

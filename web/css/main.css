@@ -111,6 +111,10 @@ table.hiscores th, table.hiscores td {
 		border: 1px #8F8F8F dashed;
 }
 
+ul.message {
+		padding-left: 30px;
+}
+
 .legend {
 		margin: 50px auto;
 		text-align: center;
@@ -139,4 +143,8 @@ table.board td img {
 		margin-top: 100px;
 		text-align: center;
 		font-size: smaller;
+}
+
+#flag_on, #question_on {
+		display: none;
 }
