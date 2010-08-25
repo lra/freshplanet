@@ -122,7 +122,7 @@ class Board
 		return $this->tiles;
 	}
 	
-	public function leftClick($offset)
+	public function revealTile($offset)
 	{
 		if (!isset($this->tiles[$offset]))
 		{
@@ -144,6 +144,13 @@ class Board
 			{
 				// It is not a mine, next
 				$tile->setRevealed();			
+
+				// Reveal the tiles surrounding this one
+				if ($this->getMinesAround($offset) === 0)
+				{
+					$this->revealTilesAround($offset);
+				}
+				
 				$return = Board::GAME_DISCOVERED;
 
 				if ($this->isWon())
@@ -154,6 +161,75 @@ class Board
 		}
 
 		return $return;
+	}
+
+	public function revealTilesAround($offset)
+	{
+		if (!isset($this->tiles[$offset]))
+		{
+			throw new Exception('Tile not found');
+		}
+
+		$width = $this->getWidth();
+		$x_pos = intval($offset % $width);
+		$y_pos = intval($offset / $width);
+		$to_check = array();
+		
+		// Pos 1
+		if ($x_pos > 0 && $y_pos > 0)
+		{
+			$to_check[] = $offset - $width - 1;
+		}
+
+		// Pos 2
+		if ($y_pos > 0)
+		{
+			$to_check[] = $offset - $width;
+		}
+
+		// Pos 3
+		if (($x_pos < $width - 1) && $y_pos > 0)
+		{
+			$to_check[] = $offset - $width + 1;
+		}
+
+		// Pos 4
+		if ($x_pos > 0)
+		{
+			$to_check[] = $offset - 1;
+		}
+
+		// Pos 6
+		if ($x_pos < $width - 1)
+		{
+			$to_check[] = $offset + 1;
+		}
+
+		// Pos 7
+		if ($x_pos > 0 && ($y_pos < $width - 1))
+		{
+			$to_check[] = $offset + $width - 1;
+		}
+
+		// Pos 8
+		if ($y_pos < $width - 1)
+		{
+			$to_check[] = $offset + $width;
+		}
+
+		// Pos 9
+		if (($x_pos < $width - 1) && ($y_pos < $width - 1))
+		{
+			$to_check[] = $offset + $width + 1;
+		}
+
+		foreach ($to_check as $c)
+		{
+			if (!$this->tiles[$c]->isRevealed())
+			{
+				$this->revealTile($c);
+			}
+		}
 	}
 
 	/**
@@ -225,9 +301,9 @@ class Board
 	public function getMinesAround($offset)
 	{
 		$nb_mines = 0;
-		$x_pos = intval($offset % $this->getWidth());
-		$y_pos = intval($offset / $this->getWidth());
 		$width = $this->getWidth();
+		$x_pos = intval($offset % $width);
+		$y_pos = intval($offset / $width);
 		$to_check = array();
 		
 		// Pos 1

@@ -85,7 +85,7 @@ class jsonActions extends sfActions
 			$board = new Board($dbUser->getGameBoard());
 			if (get_class($board) === 'Board')
 			{
-				$data['result'] = $board->leftClick($offset);
+				$data['result'] = $board->revealTile($offset);
 				$dbUser->setGameBoard($board->dump());
 				$dbUser->save();
 				$data['board'] = array();
