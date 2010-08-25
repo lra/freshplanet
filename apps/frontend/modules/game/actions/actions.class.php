@@ -21,7 +21,13 @@ class gameActions extends sfActions
 		$dbUser = Doctrine_Core::getTable('User')->find($user->getAttribute('id'));
 		if (get_class($dbUser) === 'User')
 		{
-			$this->board = new Board($dbUser->getGameBoard());
+			$binary_board = $dbUser->getGameBoard();
+			if (!is_string($binary_board))
+			{
+				$user->setFlash('error', 'No game board yet');
+				$this->redirect('user/index');
+			}
+			$this->board = new Board($binary_board);
 			if (get_class($this->board) !== 'Board')
 			{
 				$user->setFlash('error', 'Unable to load the game board');
