@@ -388,7 +388,14 @@ class Board
 			else
 			{
 				$tile->setFlagged();
-				$return = Board::GAME_FLAGGED;
+				if ($this->isWon())
+				{
+					$return = Board::GAME_WON;
+				}
+				else
+				{
+					$return = Board::GAME_FLAGGED;
+				}
 			}
 		}
 

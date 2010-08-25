@@ -44,6 +44,10 @@ class jsonActions extends sfActions
 				{
 					$data['result'] = Board::GAME_LOST;
 				}
+				elseif ($board->isWon())
+				{
+					$data['result'] = Board::GAME_WON;
+				}
 				else
 				{
 					$data['result'] = Board::GAME_NOTHING;
