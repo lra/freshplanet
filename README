@@ -119,3 +119,10 @@ An exemple of some squares updated sent back using JSON:
 								 {"offset": 83, "state": 1}
 				]
 }
+
+Possible memcache usage:
+
+ * Build a hash list of users for keeping gameboards (example: set user_12345 $data) and 'unsaved_X' keys for keeping a list of unsaved users, by using the append command. X is used to split the lists because of the 1MB memcached limit for a key. X being saved in the max_x key, which is incremeted with the inc command at each split.
+ * When saving a game (at each user interaction), save the game in the gameboard list, and push the user_id in the unsaved user list if it's not there already (well, no need to check it in memcache, we'll just unique the list when we'll use it)
+ * When reading a game, read it from memcache, and if it's not there, read it from the DB and save it to memcache
+ * Asynchronically (cron), unique the unsaved_X lists. For each user in the unsaved user list of memcache, save their memcache gameboard in the DB, then remove the user from the unsaved list.
