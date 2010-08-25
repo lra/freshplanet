@@ -67,6 +67,25 @@ function changeStatus(color, message)
 		$('#status > span').addClass(color);
 }
 
+function gameFinished()
+{
+	if (($('#status > span').text() == 'Game won!')
+		||
+		($('#status > span').text() == 'Game lost!'))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function finishGame()
+{
+	$('.clickable').removeClass('clickable');
+}
+
 function clickTile(id)
 {
 	var offset = id.substring('tile_'.length, id.length);
@@ -88,6 +107,10 @@ function clickTile(id)
 								break;
 						case 4:
 								changeStatus('grey', 'Tile unflagged');
+								break;
+						case 8:
+								finishGame();
+								changeStatus('green', 'Game won!');
 								break;
 						default:
 								changeStatus('red', 'Unknown error');
@@ -134,9 +157,11 @@ function clickTile(id)
 								changeStatus('grey', 'Tile revealed');
 								break;
 						case 8:
+								finishGame();
 								changeStatus('green', 'Game won!');
 								break;
 						case 9:
+								finishGame();
 								changeStatus('red', 'Game lost!');
 								break;
 						default:
@@ -192,7 +217,13 @@ $(document).ready(function()
 		}
 		if (data.result == 9)
 		{
+			finishGame();
 			changeStatus('red', 'Game lost!');
+		}
+		else if (data.result == 8)
+		{
+			finishGame();
+			changeStatus('green', 'Game won!');
 		}
 		else
 		{
@@ -200,23 +231,26 @@ $(document).ready(function()
 		}
 	})
 
-	// When the user click on a tile
 	$('table.board img').click(function()
 	{
-		clickTile(this.id);
+		// When the user click on a tile
+		if (!gameFinished())
+		{
+			clickTile(this.id);
+		}
 	});
 });
 
 // Handler for keys pressed
 $(document).keypress(function(event)
 {
-		switch (event.which)
-		{
-		case 102:
-				switchFlag();
-				break;
-		case 113:
-				switchQuestion();
-				break;
-		}
+	switch (event.which)
+	{
+	case 102:
+			switchFlag();
+			break;
+	case 113:
+			switchQuestion();
+			break;
+	}
 });
