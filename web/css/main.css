@@ -131,6 +131,10 @@ table.board td img {
 	display: block;
 }
 
+.clickable {
+		cursor: pointer;
+}
+
 .bottom {
 		margin-top: 100px;
 		text-align: center;
