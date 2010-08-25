@@ -134,12 +134,22 @@ class Board
 		$tile = $this->tiles[$offset];
 		if (!$tile->isRevealed())
 		{
-			$tile->setRevealed();			
-			$return = Board::GAME_DISCOVERED;
-
-			if ($this->isWon())
+			// It is a mine, you loose
+			if ($tile->isMined())
 			{
-				$return = Board::GAME_WON;
+				$this->revealMap();
+				$return = Board::GAME_LOST;
+			}
+			else
+			{
+				// It is not a mine, next
+				$tile->setRevealed();			
+				$return = Board::GAME_DISCOVERED;
+
+				if ($this->isWon())
+				{
+					$return = Board::GAME_WON;
+				}
 			}
 		}
 
@@ -174,6 +184,34 @@ class Board
 		}
 
 		return true;
+	}
+	
+	public function isLost()
+	{
+		foreach ($this->getTiles() as $tile)
+		{
+			if ($tile->isMined() && $tile->isRevealed())
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Reveals the whole map
+	 */
+	
+	public function revealMap()
+	{
+		foreach ($this->getTiles() as $tile)
+		{
+			if (!$tile->isRevealed())
+			{
+				$tile->setRevealed();
+			}
+		}
 	}
 
 	/**

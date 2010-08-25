@@ -40,7 +40,14 @@ class jsonActions extends sfActions
 			$board = new Board($dbUser->getGameBoard());
 			if (get_class($board) === 'Board')
 			{
-				$data['result'] = Board::GAME_NOTHING;
+				if ($board->isLost())
+				{
+					$data['result'] = Board::GAME_LOST;
+				}
+				else
+				{
+					$data['result'] = Board::GAME_NOTHING;
+				}
 				$data['board'] = array();
 				$offset = 0;
 				foreach ($board->getTiles() as $tile)

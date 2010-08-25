@@ -190,7 +190,14 @@ $(document).ready(function()
 			var tile = data.board[x];
 			setState(tile.offset, tile.state);
 		}
-		changeStatus('grey', '--');
+		if (data.result == 9)
+		{
+			changeStatus('red', 'Game lost!');
+		}
+		else
+		{
+			changeStatus('grey', '--');
+		}
 	})
 
 	// When the user click on a tile
