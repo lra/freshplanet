@@ -29,6 +29,7 @@ class jsonActions extends sfActions
 	public function executeGetFullGameboard(sfWebRequest $request)
 	{
 		$data = array();
+		$data['result'] = Board::GAME_ERROR;
 
 		// Load the user
 		$user = $this->getUser();
@@ -62,6 +63,7 @@ class jsonActions extends sfActions
 	public  function executeClickTile(sfWebRequest $request)
 	{
 		$data = array();
+		$data['result'] = Board::GAME_ERROR;
 		$offset = $request->getParameter('offset');
 
 		$user = $this->getUser();
@@ -72,10 +74,9 @@ class jsonActions extends sfActions
 			$board = new Board($dbUser->getGameBoard());
 			if (get_class($board) === 'Board')
 			{
-				$board->leftClick($offset);
+				$data['result'] = $board->leftClick($offset);
 				$dbUser->setGameBoard($board->dump());
 				$dbUser->save();
-				$data['result'] = Board::GAME_NOTHING;
 				$data['board'] = array();
 				$data['board'][] = array
 				(
@@ -95,6 +96,7 @@ class jsonActions extends sfActions
 	public  function executeFlagTile(sfWebRequest $request)
 	{
 		$data = array();
+		$data['result'] = Board::GAME_ERROR;
 		$offset = $request->getParameter('offset');
 
 		$user = $this->getUser();
@@ -105,10 +107,9 @@ class jsonActions extends sfActions
 			$board = new Board($dbUser->getGameBoard());
 			if (get_class($board) === 'Board')
 			{
-				$board->flagTile($offset);
+				$data['result'] = $board->flagTile($offset);
 				$dbUser->setGameBoard($board->dump());
 				$dbUser->save();
-				$data['result'] = Board::GAME_NOTHING;
 				$data['board'] = array();
 				$data['board'][] = array
 				(
@@ -128,6 +129,7 @@ class jsonActions extends sfActions
 	public  function executeQuestionTile(sfWebRequest $request)
 	{
 		$data = array();
+		$data['result'] = Board::GAME_ERROR;
 		$offset = $request->getParameter('offset');
 
 		$user = $this->getUser();
@@ -138,10 +140,9 @@ class jsonActions extends sfActions
 			$board = new Board($dbUser->getGameBoard());
 			if (get_class($board) === 'Board')
 			{
-				$board->questionTile($offset);
+				$data['result'] = $board->questionTile($offset);
 				$dbUser->setGameBoard($board->dump());
 				$dbUser->save();
-				$data['result'] = Board::GAME_NOTHING;
 				$data['board'] = array();
 				$data['board'][] = array
 				(

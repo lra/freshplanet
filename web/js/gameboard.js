@@ -60,6 +60,13 @@ function setState(id, newState)
 	}
 }
 
+function changeStatus(color, message)
+{
+		$('#status > span').removeClass();
+		$('#status > span').text(message);
+		$('#status > span').addClass(color);
+}
+
 function clickTile(id)
 {
 	var offset = id.substring('tile_'.length, id.length);
@@ -68,40 +75,73 @@ function clickTile(id)
 		// Flag a tile
 		if ($('#flag_on').is(':visible'))
 		{
-				$('#status > span').text('Loading...');
+				changeStatus('grey', 'Loading...');
 				$.getJSON('/json/flagTile?offset='+offset, function(data)
 				{
 						for (var x in data.board) {
 								var tile = data.board[x];
 								setState(tile.offset, tile.state);
 						}
-						$('#status > span').text('--');
+						switch (data.result) {
+						case 3:
+								changeStatus('grey', 'Tile flagged');
+								break;
+						case 4:
+								changeStatus('grey', 'Tile unflagged');
+								break;
+						default:
+								changeStatus('red', 'Unknown error');
+						}
 				})
 		}
 		// Question a tile
 		else if ($('#question_on').is(':visible'))
 		{
-				$('#status > span').text('Loading...');
+				changeStatus('grey', 'Loading...');
 				$.getJSON('/json/questionTile?offset='+offset, function(data)
 				{
 						for (var x in data.board) {
 								var tile = data.board[x];
 								setState(tile.offset, tile.state);
 						}
-						$('#status > span').text('--');
+						switch (data.result) {
+						case 5:
+								changeStatus('grey', 'Tile questioned');
+								break;
+						case 6:
+								changeStatus('grey', 'Tile unquestioned');
+								break;
+						default:
+								changeStatus('red', 'Unknown error');
+						}
 				})
 		}
 		// Click a tile
 		else
 		{
-				$('#status > span').text('Loading...');
+				changeStatus('grey', 'Loading...');
 				$.getJSON('/json/clickTile?offset='+offset, function(data)
 				{
 						for (var x in data.board) {
 								var tile = data.board[x];
 								setState(tile.offset, tile.state);
 						}
-						$('#status > span').text('--');
+						switch (data.result) {
+						case 2:
+								changeStatus('grey', '--');
+								break;
+						case 7:
+								changeStatus('grey', 'Tile revealed');
+								break;
+						case 8:
+								changeStatus('green', 'Game won!');
+								break;
+						case 9:
+								changeStatus('red', 'Game lost!');
+								break;
+						default:
+								changeStatus('red', 'Unknown error');
+						}
 				})
 		}
 	}
@@ -150,7 +190,7 @@ $(document).ready(function()
 			var tile = data.board[x];
 			setState(tile.offset, tile.state);
 		}
-		$('#status > span').text('--');
+		changeStatus('grey', '--');
 	})
 
 	// When the user click on a tile

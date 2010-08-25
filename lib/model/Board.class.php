@@ -6,12 +6,15 @@ class Board
 	 * Constants
 	 */
 
-	const GAME_NOTHING = 1;
-	const GAME_FLAGGED = 2;
-	const GAME_QUESTIONED = 3;
-	const GAME_DISCOVERED = 4;
-	const GAME_WON = 5;
-	const GAME_LOST = 6;
+	const GAME_ERROR = 1;
+	const GAME_NOTHING = 2;
+	const GAME_FLAGGED = 3;
+	const GAME_UNFLAGGED = 4;
+	const GAME_QUESTIONED = 5;
+	const GAME_UNQUESTIONED = 6;
+	const GAME_DISCOVERED = 7;
+	const GAME_WON = 8;
+	const GAME_LOST = 9;
 
 	private $tiles;
 
@@ -126,11 +129,16 @@ class Board
 			throw new Exception('Tile not found');
 		}
 	
+		$return = Board::GAME_ERROR;
+
 		$tile = $this->tiles[$offset];
 		if (!$tile->isRevealed())
 		{
 			$tile->setRevealed();			
+			$return = Board::GAME_DISCOVERED;
 		}
+
+		return $return;
 	}
 
 	public function flagTile($offset)
@@ -140,18 +148,24 @@ class Board
 			throw new Exception('Tile not found');
 		}
 
+		$return = Board::GAME_ERROR;
+
 		$tile = $this->tiles[$offset];
 		if (!$tile->isRevealed())
 		{
 			if ($tile->isFlagged())
 			{
 				$tile->setUntouched();
+				$return = Board::GAME_UNFLAGGED;
 			}
 			else
 			{
 				$tile->setFlagged();
+				$return = Board::GAME_FLAGGED;
 			}
 		}
+
+		return $return;
 	}
 
 	public function questionTile($offset)
@@ -161,17 +175,23 @@ class Board
 			throw new Exception('Tile not found');
 		}
 
+		$return = Board::GAME_ERROR;
+
 		$tile = $this->tiles[$offset];
 		if (!$tile->isRevealed())
 		{
 			if ($tile->isQuestioned())
 			{
 				$tile->setUntouched();
+				$return = Board::GAME_UNQUESTIONED;
 			}
 			else
 			{
 				$tile->setQuestioned();
+				$return = Board::GAME_QUESTIONED;
 			}
 		}
+
+		return $return;
 	}
 }
