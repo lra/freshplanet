@@ -144,6 +144,26 @@ class userActions extends sfActions
 		$user = $this->getUser();
 		$this->dbUser = Doctrine_Core::getTable('User')->find($user->getAttribute('id'));
 		$this->gameForm = new GameForm();
+
+		$binary_board = $this->dbUser->getGameBoard();
+		if (!is_string($binary_board))
+		{
+			$default_width = sfConfig::get('app_board_minwidth');
+		}
+		else
+		{
+			$board = new Board($binary_board);
+			if (get_class($board) !== 'Board')
+			{
+				$default_width = sfConfig::get('app_board_minwidth');
+			}
+			else
+			{
+				$default_width = $board->getWidth();
+			}
+		}
+
+		$this->gameForm->setDefault('width', $default_width);
 	}
 
  /**
