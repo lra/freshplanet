@@ -1,4 +1,5 @@
 TODO
+	* Unactivate the flag and question keypress when clicking a tile
 	* Optimize the JSON exchange: transfer only updated tiles on a click
 	* Save the hiscore when a game is won
 	* Make use of Memcached
