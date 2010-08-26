@@ -353,10 +353,7 @@ class Board
 		{
 			$to_check[] = $offset + $width + 1;
 		}
-		/* var_dump($offset); */
-		/* var_dump($x_pos); */
-		/* var_dump($y_pos); */
-		/* var_dump($to_check); */
+
 		foreach ($to_check as $c)
 		{
 			if ($this->tiles[$c]->isMined())
