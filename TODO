@@ -2,4 +2,5 @@ TODO
 	* Unactivate the flag and question keypress when clicking a tile
 	* Optimize the JSON exchange: transfer only updated tiles on a click
 	* Save the hiscore when a game is won
+	* Pack and compress the gameboard in the DB
 	* Make use of Memcached
