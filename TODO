@@ -1,4 +1,6 @@
 TODO
 	* Save the hiscore when a game is won
+	* Save the width of a game and select it by default for now games
+	* Install it on the dedicated box
 	* Pack and compress the gameboard in the DB
 	* Make use of Memcached
