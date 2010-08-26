@@ -11,19 +11,6 @@
 class jsonActions extends sfActions
 {
 	/**
-	* Executes index action
-	*
-	* @param sfRequest $request A request object
-	*/
-
-	public function executeIndex(sfWebRequest $request)
-	{
-		$data = array('1' => 'un', 'deux' => 2);
-
-		return $this->renderComponent('json', 'json', array('data' => $data));
-	}
-
-	/**
 	 * Retrieve the full game board state with JSON
 	 */
 	public function executeGetFullGameboard(sfWebRequest $request)
