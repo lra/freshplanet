@@ -2,7 +2,7 @@ This is a minesweeper game I'm coding using Symfony and PHP.
 
 Time spent for now:
 
- * Symfony installation: 1 hour
+ * Symfony installation: 2 hours
  * Initial game design: 1 hour
  * Yaml schema design: 2 hours
  * Symfony understanding and application building: 5 hours

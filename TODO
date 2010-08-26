@@ -1,4 +1,4 @@
 TODO
-	* Install it on the dedicated box
+	* Fast load the game page by not using AJAX
 	* Pack and compress the gameboard in the DB
 	* Make use of Memcached
