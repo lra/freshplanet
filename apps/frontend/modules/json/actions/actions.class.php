@@ -77,33 +77,56 @@ class jsonActions extends sfActions
 	 */
 	public  function executeClickTile(sfWebRequest $request)
 	{
+		// Initialization of variables
 		$data = array();
 		$data['result'] = Board::GAME_ERROR;
 		$offset = $request->getParameter('offset');
+		$tiles_before_click = array();
 
+		// Try to load the current user
 		$user = $this->getUser();
 		$dbUser = Doctrine_Core::getTable('User')->find($user->getAttribute('id'));
 		if (get_class($dbUser) === 'User')
 		{
-			// Load the game board
+			// Load the game board of the user
 			$board = new Board($dbUser->getGameBoard());
 			if (get_class($board) === 'Board')
 			{
-				$data['result'] = $board->revealTile($offset);
-				$dbUser->setGameBoard($board->dump());
-				$dbUser->save();
-				$data['board'] = array();
-
-				$current_offset = 0;
+				// Save the state of every tile before the user interaction
 				foreach ($board->getTiles() as $tile)
 				{
+					$tiles_before_click[] = $tile->getState();
+				}
+
+				// Reveal the tile chosen by the user (and the others tiles)
+				$data['result'] = $board->revealTile($offset);
+
+				// Save the new gameboard
+				$dbUser->setGameBoard($board->dump());
+				$dbUser->save();
+
+				// Put the new tiles status in the board JSON array
+				$data['board'] = array();
+				$current_offset = 0;
+				foreach ($board->getTiles() as $k => $tile)
+				{
+					// Get the state of the current tile
 					$state = $tile->getState();
-					if ($state === Tile::PUB_EMPTY)
+
+					// If the state of the tile changed due to the user click, keep it
+					if ($state !== $tiles_before_click[$k])
 					{
-						$state += $board->getMinesAround($current_offset);
+						// If the tile is empty, determine the number of mines around it
+						if ($state === Tile::PUB_EMPTY)
+						{
+							// Display the number of mines on the tile
+							$state += $board->getMinesAround($current_offset);
+						}
+
+						// Add the tile data to the JSON array
+						$data['board'][] = array('offset' => $current_offset,
+																		 'state' => $state);
 					}
-					$data['board'][] = array('offset' => $current_offset,
-																	 'state' => $state);
 					$current_offset++;
 				}
 			}
