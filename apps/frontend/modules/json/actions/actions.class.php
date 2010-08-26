@@ -87,6 +87,11 @@ class jsonActions extends sfActions
 
 				// Reveal the tile chosen by the user (and the others tiles)
 				$data['result'] = $board->revealTile($offset);
+				if ($data['result'] === Board::GAME_WON)
+				{
+					// Save the hiscore
+					Hiscore::saveScore($dbUser);
+				}
 
 				// Save the new gameboard
 				$dbUser->setGameBoard($board->dump());
@@ -140,13 +145,17 @@ class jsonActions extends sfActions
 			if (get_class($board) === 'Board')
 			{
 				$data['result'] = $board->flagTile($offset);
+				if ($data['result'] === Board::GAME_WON)
+				{
+					// Save the hiscore
+					Hiscore::saveScore($dbUser);
+				}
 				$dbUser->setGameBoard($board->dump());
 				$dbUser->save();
 				$data['board'] = array();
 				$data['board'][] = array
 				(
 					'offset' => $offset,
-					// 'state' => $tile->getState());
 					'state' => $board->getTile($offset)->getState()
 				);
 			}
