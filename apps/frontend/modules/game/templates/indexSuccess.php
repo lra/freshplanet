@@ -7,7 +7,7 @@
 	<tr>
 		<?php for ($x = 0; $x < $board->getWidth(); $x++): ?>
 		<td>
-			<img id="tile_<?php echo($x+$y*$board->getWidth()) ?>" src="/images/up.png" />
+	 <?php echo image_tag('up.png', array('id' => 'tile_'.strval($x+$y*$board->getWidth()))); ?>
 		</td>
 		<?php endfor; ?>
 	</tr>
