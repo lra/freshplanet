@@ -116,6 +116,7 @@ function clickTile(id)
 								changeStatus('red', 'Unknown error');
 						}
 				})
+        switchKeysOff();
 		}
 		// Question a tile
 		else if ($('#question_on').is(':visible'))
@@ -138,6 +139,7 @@ function clickTile(id)
 								changeStatus('red', 'Unknown error');
 						}
 				})
+        switchKeysOff();
 		}
 		// Click a tile
 		else
@@ -201,6 +203,20 @@ function switchQuestion()
 		$('#question_on').show();
 		$('#flag_on').hide();
 		$('#flag_off').show();
+	}
+}
+
+function switchKeysOff()
+{
+	if ($('#flag_on').is(':visible'))
+  {
+		$('#flag_on').hide();
+		$('#flag_off').show();
+	}
+	if ($('#question_on').is(':visible'))
+  {
+		$('#question_on').hide();
+		$('#question_off').show();
 	}
 }
 
