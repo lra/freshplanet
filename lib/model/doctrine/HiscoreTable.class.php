@@ -13,8 +13,8 @@ class HiscoreTable extends Doctrine_Table
 		{
 			$q = $this->createQuery('h')
 				->leftJoin('h.User u')
-				->orderBy('h.boardwidth DESC')
-				->orderBy('h.time ASC');
+				->orderBy('h.time ASC')
+				->orderBy('h.boardwidth DESC');
 
 			return $q->execute();
 		}
