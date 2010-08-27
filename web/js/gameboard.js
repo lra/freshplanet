@@ -223,30 +223,6 @@ function switchKeysOff()
 // On page load
 $(document).ready(function()
 {
-	// Handler for .ready() called.
-	$.getJSON('/json/getFullGameboard', function(data)
-	{
-		for (var x in data.b)
-		{
-			var tile = data.b[x];
-			setState(tile.o, tile.s);
-		}
-		if (data.r == 9)
-		{
-			finishGame();
-			changeStatus('red', 'Game lost!');
-		}
-		else if (data.r == 8)
-		{
-			finishGame();
-			changeStatus('green', 'Game won!');
-		}
-		else
-		{
-			changeStatus('grey', '--');
-		}
-	})
-
 	$('table.board img').click(function()
 	{
 		// When the user click on a tile

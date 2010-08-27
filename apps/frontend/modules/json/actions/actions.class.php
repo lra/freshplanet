@@ -11,55 +11,6 @@
 class jsonActions extends sfActions
 {
 	/**
-	 * Retrieve the full game board state with JSON
-	 */
-	public function executeGetFullGameboard(sfWebRequest $request)
-	{
-		$data = array();
-		$data['r'] = Board::GAME_ERROR;
-
-		// Load the user
-		$user = $this->getUser();
-		$dbUser = Doctrine_Core::getTable('User')->find($user->getAttribute('id'));
-		if (get_class($dbUser) === 'User')
-		{
-			// Load the game board
-			$board = new Board($dbUser->getGameBoard());
-			if (get_class($board) === 'Board')
-			{
-				if ($board->isLost())
-				{
-					$data['r'] = Board::GAME_LOST;
-				}
-				elseif ($board->isWon())
-				{
-					$data['r'] = Board::GAME_WON;
-				}
-				else
-				{
-					$data['r'] = Board::GAME_NOTHING;
-				}
-				$data['b'] = array();
-				$offset = 0;
-				foreach ($board->getTiles() as $tile)
-				{
-					$state = $tile->getState();
-					if ($state === Tile::PUB_EMPTY)
-					{
-						$state += $board->getMinesAround($offset);
-					}
-					$data['b'][] = array(
-						'o' => $offset,
-						's' => $state);
-					$offset++;
-				}
-			}
-		}
-
-		return $this->renderComponent('json', 'json', array('data' => $data));
-	}
-	
-	/**
 	 * Click a tile and retrieve the state of the changed tiles with JSON
 	 */
 	public  function executeClickTile(sfWebRequest $request)

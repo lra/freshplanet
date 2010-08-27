@@ -7,7 +7,7 @@
 	<tr>
 		<?php for ($x = 0; $x < $board->getWidth(); $x++): ?>
 		<td>
-	 <?php echo image_tag('up.png', array('id' => 'tile_'.strval($x+$y*$board->getWidth()))); ?>
+	 <?php echo $board->getHtmlTile(strval($x+$y*$board->getWidth())); ?>
 		</td>
 		<?php endfor; ?>
 	</tr>
@@ -16,7 +16,7 @@
 
 <p id="status">
 	 Status:
-	 <span class="grey">Loading...</span>
+	 <?php echo $board->getHtmlStatus(); ?>
 </p>
 
 <ul class="message">

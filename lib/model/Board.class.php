@@ -163,6 +163,75 @@ class Board
 		}
 	}
 
+	public function getHtmlTile($offset)
+	{
+		$offset = intval($offset);
+		$tile = $this->tiles[$offset];
+		if (get_class($tile) !== 'Tile')
+		{
+			throw new Exception('Invalid offset value');
+		}
+
+		$id = 'tile_'.$offset;
+
+		$tile_state = $this->tiles[$offset]->getState();
+		if ($tile_state === Tile::PUB_EMPTY)
+		{
+			$tile_state += $this->getMinesAround($offset);
+		}
+
+		switch ($tile_state)
+		{
+		case 1: $icon = 'up'; break;
+		case 2: $icon = 'up-flag'; break;
+		case 3: $icon = 'up-question'; break;
+		case 4: $icon = 'bomb'; break;
+		case 10: $icon = 'empty'; break;
+		case 11: $icon = '1'; break;
+		case 12: $icon = '2'; break;
+		case 13: $icon = '3'; break;
+		case 14: $icon = '4'; break;
+		case 15: $icon = '5'; break;
+		case 16: $icon = '6'; break;
+		case 17: $icon = '7'; break;
+		case 18: $icon = '8'; break;
+		default:
+			throw new Exception('Unknown tile state');
+		}
+		$src = '/images/'.$icon.'.png';
+
+		$class = '';
+		if ($tile_state >= 1 && $tile_state <= 3)
+		{
+			$class = 'clickable';
+		}
+
+		$html = '<img id="'.$id.'" class="'.$class.'" src="'.$src.'" />';
+
+		return $html;
+	}
+
+	public function getHtmlStatus()
+	{
+		$class = 'grey';
+		$status = '--';
+
+		if ($this->isWon())
+		{
+			$class = 'green';
+			$status = 'Game won!';
+		}
+		elseif ($this->isLost())
+		{
+			$class = 'red';
+			$status = 'Game lost!';
+		}
+
+		$html = '<span class="'.$class.'">'.$status.'</span>';
+
+		return $html;
+	}
+
 	public function getWidth()
 	{
 		$width = sqrt($this->getSize());
