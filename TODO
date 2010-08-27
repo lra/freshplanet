@@ -1,5 +1,4 @@
 TODO
-  * Reduce the JSON size
 	* Fast load the game page by not using AJAX
 	* Add an admin backend
 	* Make use of Memcached

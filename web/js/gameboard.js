@@ -97,11 +97,11 @@ function clickTile(id)
 				changeStatus('grey', 'Loading...');
 				$.getJSON('/json/flagTile?offset='+offset, function(data)
 				{
-						for (var x in data.board) {
-								var tile = data.board[x];
-								setState(tile.offset, tile.state);
+						for (var x in data.b) {
+								var tile = data.b[x];
+								setState(tile.o, tile.s);
 						}
-						switch (data.result) {
+						switch (data.r) {
 						case 3:
 								changeStatus('grey', 'Tile flagged');
 								break;
@@ -124,11 +124,11 @@ function clickTile(id)
 				changeStatus('grey', 'Loading...');
 				$.getJSON('/json/questionTile?offset='+offset, function(data)
 				{
-						for (var x in data.board) {
-								var tile = data.board[x];
-								setState(tile.offset, tile.state);
+						for (var x in data.b) {
+								var tile = data.b[x];
+								setState(tile.o, tile.s);
 						}
-						switch (data.result) {
+						switch (data.r) {
 						case 5:
 								changeStatus('grey', 'Tile questioned');
 								break;
@@ -147,11 +147,11 @@ function clickTile(id)
 				changeStatus('grey', 'Loading...');
 				$.getJSON('/json/clickTile?offset='+offset, function(data)
 				{
-						for (var x in data.board) {
-								var tile = data.board[x];
-								setState(tile.offset, tile.state);
+						for (var x in data.b) {
+								var tile = data.b[x];
+								setState(tile.o, tile.s);
 						}
-						switch (data.result) {
+						switch (data.r) {
 						case 2:
 								changeStatus('grey', '--');
 								break;
@@ -226,17 +226,17 @@ $(document).ready(function()
 	// Handler for .ready() called.
 	$.getJSON('/json/getFullGameboard', function(data)
 	{
-		for (var x in data.board)
+		for (var x in data.b)
 		{
-			var tile = data.board[x];
-			setState(tile.offset, tile.state);
+			var tile = data.b[x];
+			setState(tile.o, tile.s);
 		}
-		if (data.result == 9)
+		if (data.r == 9)
 		{
 			finishGame();
 			changeStatus('red', 'Game lost!');
 		}
-		else if (data.result == 8)
+		else if (data.r == 8)
 		{
 			finishGame();
 			changeStatus('green', 'Game won!');
