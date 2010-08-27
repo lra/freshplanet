@@ -25,7 +25,7 @@ Suppositions:
 Rules:
 
  * A player loose when he clicks a mined square
- * A player wins when he uncover the last empty square
+ * A player wins when he uncover the last empty square and flag all the mines
 
 Constants:
 
@@ -55,24 +55,24 @@ Data structures:
  * Hiscores
  	 * id (PK)
  	 * user_id (FK Users.id)
-	 * Time (Time spent in seconds to win the game)
-	 * Boardwidth (width of the board played and won)
+	 * Time (Time spent in seconds to win the game) (INT NOT NULL)
+	 * Boardwidth (width of the board played and won) (BYTE NOT NULL)
 	 * created_at (when the hiscore occured) (DATETIME NOT NULL)
 
 Indexes:
 
  * On User.Email: needed to look for a specific user at login
- * On User.created_at: needed to list the latest users
+ * On User.created_at: needed to list the latest users (for admin purpose)
  * On Hiscores.user_id: used for the join between Users and Hiscores
  * On Hiscores.boardwidth and Hiscores.time: used to get the hiscores with the same board size from best to worst
- * On Hiscores.created_at: used to get the latest hiscores
+ * On Hiscores.created_at: used to get the latest hiscores (for admin purpose)
 
 Data structure of the board game:
  * A game board is a list of 3 bits long values
- * A game board is stored as a string in the database
- * Each byte of the string contains 2 tiles: 0AAA0BBB, AAA being the 3 bits of the first tile and BBB the 3 bits of the second
- * If the number of tiles of a gameboard is odd, the last tile value id prefixed with a 1. eg. 0AAA1000 (we don't care about the tile value as it does not exist)
- * The game board string is inflated (compressed) before being saved in the database
+ * A game board is stored as a binary string in the database
+ * Each byte of the binary string contains 2 tiles: 0AAA0BBB, AAA being the 3 bits of the first tile and BBB the 3 bits of the second
+ * If the number of tiles of a gameboard is odd, the last tile value is prefixed with a 1. eg. 0AAA1000 (we don't care about the tile value as it does not exist)
+ * The game board binary string is inflated (compressed) before being saved in the database
  * All this leads to less space used in the database for the gameboard. As we won't ever need to query and index the tiles individually, we are ok with that.
 
 Choices:
@@ -95,12 +95,11 @@ The frontend/game module of the application will make requests to the frontend/j
 The frontend/json module will update the game data and send back the data to the frontend/game module with JSON.
 
 The possible actions will be the requests:
- * getFullGameboard - Get every square state composing the gameboard
  * clickTile?offset=123 - discover a tile and get every tile state that was changed by this action
  * flagTile?offset=456 - flag or unflag an undiscovered tile and get its new state
  * questionTile?offset=789 - question or unquestion an undiscovered tile and get its new state
 
-An example of full game board sent back with JSON:
+An example of full game board sent back with JSON (never really used):
 {
 				"result": 0, // Result code depending on the effect of the last action: Boom, Won, Discovered, ...
 				"board": [
@@ -131,9 +130,15 @@ An exemple of some squares updated sent back using JSON:
 				]
 }
 
+In production, in the JSON message we prefer to use the following shorter names:
+ * result: r
+ * board: b
+ * offset: o
+ * state: s
+
 Possible memcache usage:
 
  * Build a hash list of users for keeping gameboards (example: set user_12345 $data) and 'unsaved_X' keys for keeping a list of unsaved users, by using the append command. X is used to split the lists because of the 1MB memcached limit for a key. X being saved in the max_x key, which is incremeted with the inc command at each split.
- * When saving a game (at each user interaction), save the game in the gameboard list, and push the user_id in the unsaved user list if it's not there already (well, no need to check it in memcache, we'll just unique the list when we'll use it)
+ * When saving a game (at each user interaction), save the game in the gameboard list, and push the user_id in the unsaved user list if it's not there already (no need to check it in memcache, we'll just unique the list when we'll use it)
  * When reading a game, read it from memcache, and if it's not there, read it from the DB and save it to memcache
- * Asynchronically (cron), unique the unsaved_X lists. For each user in the unsaved user list of memcache, save their memcache gameboard in the DB, then remove the user from the unsaved list.
+ * Asynchronically (cron), unique the unsaved_X lists. For each user in the uniqued unsaved user list from memcache, save their memcache gameboard in the DB, then remove the user from the unsaved list.
