@@ -28,7 +28,7 @@ class userActions extends sfActions
 			{
 				$this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice'));
 			}
-			$this->redirect('user/loginSuccessful');
+			$this->redirect('user/account');
 		}
 
 		// The login forms
@@ -73,7 +73,7 @@ class userActions extends sfActions
 			$user->setFlash('notice', 'Welcome '.$dbUser->getFirstname());
 			$user->setAuthenticated(true);
 			// Shows the user that he logged in
-			$this->redirect('user/loginSuccessful');
+			$this->redirect('user/account');
 		}
 		else
 		{
@@ -125,7 +125,7 @@ class userActions extends sfActions
 			$user->setFlash('notice', 'Welcome '.$dbUser->getFirstname());
 			$user->setAuthenticated(true);
 			// Shows the user that he logged in
-			$this->redirect('user/loginSuccessful');
+			$this->redirect('user/account');
 		}
 		else
 		{
@@ -135,11 +135,11 @@ class userActions extends sfActions
 	}
 
  /**
-  * Executes loginSuccessful action
+  * Executes account action
   *
   * @param sfRequest $request A request object
   */
-  public function executeLoginSuccessful(sfWebRequest $request)
+  public function executeAccount(sfWebRequest $request)
   {
 		$user = $this->getUser();
 		$this->dbUser = Doctrine_Core::getTable('User')->find($user->getAttribute('id'));
