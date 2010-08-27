@@ -120,6 +120,12 @@ An exemple of some squares updated sent back using JSON:
 				]
 }
 
+ * We can still reduce the amout of data transfered by replaceing the JSON variable names by their initials:
+   * result : r
+   * board : b
+   * offset : o
+   * state : s
+
 Possible memcache usage:
 
  * Build a hash list of users for keeping gameboards (example: set user_12345 $data) and 'unsaved_X' keys for keeping a list of unsaved users, by using the append command. X is used to split the lists because of the 1MB memcached limit for a key. X being saved in the max_x key, which is incremeted with the inc command at each split.
