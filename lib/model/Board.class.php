@@ -201,7 +201,7 @@ class Board
 		$src = '/images/'.$icon.'.png';
 
 		$class = '';
-		if ($tile_state >= 1 && $tile_state <= 3)
+		if ($tile_state >= 1 && $tile_state <= 3 && !$this->isWon())
 		{
 			$class = 'clickable';
 		}
