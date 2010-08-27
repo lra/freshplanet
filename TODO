@@ -1,4 +1,4 @@
 TODO
+  * Reduce the JSON size
 	* Fast load the game page by not using AJAX
-	* Pack and compress the gameboard in the DB
 	* Make use of Memcached

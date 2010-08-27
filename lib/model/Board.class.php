@@ -16,6 +16,8 @@ class Board
 	const GAME_WON = 8;
 	const GAME_LOST = 9;
 
+	const NO_MORE_TILE = '1000';
+
 	private $tiles;
 
 	/**
@@ -37,7 +39,7 @@ class Board
 			throw new Exception('Invalid board size: '.$boardsize);
 		}
 
-		$binary_data = '';
+		$binary_data = array();
 
 		for ($i = 0; $i < $boardsize; $i++)
 		{
@@ -46,11 +48,101 @@ class Board
 			{
 				$tile->setMined();
 			}
-			//$binary_data .= pack('C', $tile->getValue());
-			$binary_data .= strval($tile->getValue());
+			$binary_data[] = $tile->getValue();
 		}
 
-		return new Board($binary_data);
+		$bin_string = Board::arrayToBinString($binary_data);
+
+		return new Board($bin_string);
+	}
+
+	/**
+	 * Private functions
+	 */
+
+	static private function padByteByLeft($byte, $pad)
+	{
+		if (!is_string($byte))
+		{
+			return '';
+		}
+
+		while (strlen($byte) < $pad)
+		{
+			$byte = '0'.$byte;
+		}
+
+		return $byte;
+	}
+
+	static private function arrayToBinString($data)
+	{
+		if (!is_array($data))
+		{
+			return '';
+		}
+
+		$bytes = '';
+
+		for ($i = 0; $i < count($data); $i += 2)
+		{
+			$bytes .= Board::padByteByLeft(decbin($data[$i]), 4);
+
+			if (($i+1) < count($data))
+			{
+				$bytes .= Board::padByteByLeft(decbin($data[$i+1]), 4);
+			}
+			else
+			{
+				$bytes .= Board::NO_MORE_TILE;
+			}
+		}
+
+		if (!is_string($bytes) || (strlen($bytes) % 8))
+		{
+			return '';
+		}
+
+		$string = '';
+
+		$nb_bits = intval(strlen($bytes));
+
+		for ($i = 0; $i < $nb_bits; $i += 8)
+		{
+			$byte = '';
+			for ($j = 0; $j < 8; $j++)
+			{
+				$byte .= $bytes[$i+$j];
+			}
+			$string .= chr(bindec($byte));
+		}
+
+		return gzdeflate($string, 9);
+	}
+
+	static private function binStringToArray($string)
+	{
+		$bytes = array();;
+		if (!is_string($string))
+		{
+			return $bytes;
+		}
+
+		$string = gzinflate($string);
+
+		for ($i = 0; $i < strlen($string); $i++)
+		{
+			$chr = $string[$i];
+			$str_byte = Board::padByteByLeft(decbin(ord($string[$i])), 8);
+			$bytes[] = bindec(substr($str_byte, 0, 4));
+			$right_byte = bindec(substr($str_byte, 4));
+			if ($right_byte < bindec(Board::NO_MORE_TILE))
+			{
+				$bytes [] = $right_byte;
+			}
+		}
+
+		return $bytes;
 	}
 
 	/**
@@ -64,14 +156,8 @@ class Board
 			throw new Exception('A string containing the binary data is required');
 		}
 
-		//$tiles_data = unpack('C*', $binary_data);
-		$tiles_data = array();
-		for ($i = 0; $i < strlen($binary_data); $i++)
-		{
-			$tiles_data[] = intval($binary_data[$i]);
-		}
-
-		foreach ($tiles_data as $tile_value)
+		$values = Board::binStringToArray($binary_data);
+		foreach ($values as $tile_value)
 		{
 			$this->tiles[] = new Tile($tile_value);
 		}
@@ -96,15 +182,15 @@ class Board
 
 	public function dump()
 	{
-		$binary_data = '';
-
+		$bytes = array();
 		foreach ($this->tiles as $tile)
 		{
-			// $binary_data .= pack('C', $tile->getValue());
-			$binary_data .= strval($tile->getValue());
+			$bytes[] = $tile->getValue();
 		}
 		
-		return $binary_data;
+		$binString = Board::arrayToBinString($bytes);
+
+		return $binString;
 	}
 
 	public function getTile($offset)
